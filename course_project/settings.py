@@ -37,8 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'auth_app',
+    'company_app',
+    'edit_company_app',
+    'edit_profile_app',
+    'main_page_app',
+    'edit_company_workers_app',
+    'edit_company_photo_app',
+    'edit_company_description_app',
     'rest_framework',
     'corsheaders',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +66,8 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.AllowAny",
     )
 }
+
+AUTH_USER_MODEL = "auth_app.WorkerUser"
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -126,6 +137,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Email
