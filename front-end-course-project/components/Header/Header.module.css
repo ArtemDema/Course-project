@@ -1,0 +1,15 @@
+#header{
+    width: 100%;
+    height: 75px;
+    background-color: #333D58;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+h1{
+    font-family: 'JetBrains-Bold';
+    color: white;
+    font-size: 32px;
+}

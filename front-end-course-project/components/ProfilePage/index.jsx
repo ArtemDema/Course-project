@@ -1,6 +1,6 @@
 
 
-function AuthPage() {
+function ProfilePage() {
   return(
     <div>
       
@@ -10,4 +10,4 @@ function AuthPage() {
   )
 }
 
-export default AuthPage
+export default ProfilePage

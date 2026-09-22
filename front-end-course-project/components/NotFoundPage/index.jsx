@@ -1,6 +1,6 @@
 
 
-function notFoundPage() {
+function NotFoundPage() {
   return(
     <div>
       
@@ -10,4 +10,4 @@ function notFoundPage() {
   )
 }
 
-export default notFoundPage
+export default NotFoundPage

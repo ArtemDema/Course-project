@@ -1,6 +1,6 @@
 
 
-function homePage() {
+function HomePage() {
   return(
     <div>
       
@@ -10,4 +10,4 @@ function homePage() {
   )
 }
 
-export default homePage
+export default HomePage
