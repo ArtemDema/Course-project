@@ -4,11 +4,13 @@
     background-color: #333D58;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    padding: 0 15px;
+    box-sizing: border-box;
 }
 
-h1{
+#header h1{
     font-family: 'JetBrains-Bold';
     color: white;
     font-size: 32px;

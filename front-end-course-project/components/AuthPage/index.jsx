@@ -1,11 +1,12 @@
-import Header from "../Header"
 import authStyles from "./AuthPage.module.css"
 
 
 function AuthPage() {
   return(
     <div className={authStyles.mainDiv}>
-      <Header/>
+      <header id={authStyles.header}>
+        <h1>Ласкаво просимо на сайт!</h1>
+      </header>
 
       <div className={authStyles.contentDiv}>
 
