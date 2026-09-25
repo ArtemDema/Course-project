@@ -36,8 +36,9 @@ function ProfilePage() {
               <div className={profileStyles.textFactory}>Займана посада: Back-end розробник</div>
             </div>
 
-
-            <button type="button" className={profileStyles.textFactoryButton}>Показати більше</button>
+            <div className={profileStyles.buttonDiv}>
+              <button type="button" className={profileStyles.textFactoryButton}>Показати більше</button>
+            </div>
           </div>
 
           <div className={profileStyles.exampleFactory}>
@@ -50,7 +51,9 @@ function ProfilePage() {
             </div>
 
 
-            <button type="button" className={profileStyles.textFactoryButton}>Показати більше</button>
+            <div className={profileStyles.buttonDiv}>
+              <button type="button" className={profileStyles.textFactoryButton}>Показати більше</button>
+            </div>
           </div>
 
           <div className={profileStyles.exampleFactory}>
@@ -63,7 +66,9 @@ function ProfilePage() {
             </div>
 
 
-            <button type="button" className={profileStyles.textFactoryButton}>Показати більше</button>
+            <div className={profileStyles.buttonDiv}>
+              <button type="button" className={profileStyles.textFactoryButton}>Показати більше</button>
+            </div>
           </div>
 
           <div className={profileStyles.exampleFactory}>
@@ -76,7 +81,9 @@ function ProfilePage() {
             </div>
 
 
-            <button type="button" className={profileStyles.textFactoryButton}>Показати більше</button>
+            <div className={profileStyles.buttonDiv}>
+              <button type="button" className={profileStyles.textFactoryButton}>Показати більше</button>
+            </div>
           </div>
         </div>
 
