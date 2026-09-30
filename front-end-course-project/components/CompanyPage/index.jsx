@@ -9,8 +9,9 @@ function CompanyPage() {
       <div className={companyStyles.contentDivCompanyPage}>
 
         <div className={companyStyles.leftSide}>
+          <div className={companyStyles.backCompanyDiv}></div>
           <h2>Фото підприємства</h2>
-          <div></div>
+          <div className={companyStyles.exampleCompanyAvatarDiv}></div>
           <h2>FreshCode</h2>
           <h3>Інформація про підприємство:</h3>
           <h4>"Навчальний центр Freshcode — IT-освіта від IT-компаній!  Навчальний центр Freshcode проводить курси за найзатребуванішими для  IT-ринку напрямами: JavaScript-розробка та проєктний менеджмент. Ми надаємо кожному студенту практичні навички програмування та  менеджменту, що засновані на реальних, архівних проєктах, відпрацьованих в IT-компаніях.</h4>
@@ -25,18 +26,21 @@ function CompanyPage() {
         <div className={companyStyles.rightSide}>
           <h3>Робочий графік: з 9 до 17</h3>
           <h3>Фотографії від компанії</h3>
-          <div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+          <div className={companyStyles.PhotoDiv}>
+            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
           </div>
 
           <h2>Штаб</h2>
-          <div>
+          <div className={companyStyles.workersDiv}>
             <h4>Им’я призвище - посада</h4>
             <h4>Им’я призвище - посада</h4>
             <h4>Им’я призвище - посада</h4>
@@ -46,7 +50,7 @@ function CompanyPage() {
             <h4>Им’я призвище - посада</h4>
           </div>
 
-          <h3>Продукція яку надає компанія та деталі про неї:</h3>
+          <h3 className={companyStyles.ProductText}>Продукція яку надає компанія та деталі про неї:</h3>
           <h4>Назва продукції: Інформація</h4>
           <h4>Обсяг продукції, що виготовляється(якщо можливо порахувати): недостатньо даних</h4>
           <h4>Опис продукції: бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-</h4>
