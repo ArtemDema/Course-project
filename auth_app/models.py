@@ -7,14 +7,13 @@ class WorkerUser(AbstractUser):
     first_name = models.TextField(max_length=25)
     email = models.EmailField(unique=True)
     last_name = models.TextField(max_length=35)
-    first_name = models.TextField(max_length=25)
     position = models.TextField(null=True, blank=True)
     phone_number = PhoneNumberField(null=False, blank=False)
-    owned_company = models.OneToOneField(Company, on_delete=models.CASCADE)
+    owned_company = models.OneToOneField(Company, on_delete=models.CASCADE, null=True, blank=True)
 
 class Worker(models.Model):
     user = models.OneToOneField(WorkerUser, on_delete=models.CASCADE)
-    worker_company = models.OneToOneField(Company, on_delete=models.CASCADE)
+    worker_company = models.OneToOneField(Company, on_delete=models.CASCADE, null=True, blank=True)
 
 class PhotoProfile(models.Model):
     profile = models.OneToOneField(WorkerUser, on_delete=models.CASCADE)

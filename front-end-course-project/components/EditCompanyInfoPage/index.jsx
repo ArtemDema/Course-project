@@ -1,8 +1,26 @@
 import editCompanyInfoStyles from "./EditCompanyInfoPage.module.css"
 import Header from "../Header"
+import React from 'react'
+import axios from 'axios'
 
-function EditCompanyInfoPage() {
-  return(
+class EditCompanyInfoPage extends React.Component{
+  state = {details: [], }
+
+  componentDidMount(){
+    let data;
+    axios.get("http://127.0.0.1:8000/company/") //-------------------
+    .then(responce => {
+      data = responce.data;
+      this.setState({
+        details: data
+      })
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+  render(){
+    return(
     <div className={editCompanyInfoStyles.mainEditCompanyInfoPage}>
       <Header/>
 
@@ -30,7 +48,7 @@ function EditCompanyInfoPage() {
         </div>
       </div>
     </div>
-  )
+  )}
 }
 
 export default EditCompanyInfoPage

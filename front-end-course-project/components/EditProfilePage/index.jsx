@@ -1,8 +1,26 @@
 import editProfileStyles from "./EditProfilePage.module.css"
 import Header from "../Header"
+import React from 'react'
+import axios from 'axios'
 
-function EditProfilePage() {
-  return(
+class EditProfilePage extends React.Component{
+  state = {details: [], }
+
+  componentDidMount(){
+    let data;
+    axios.get("http://127.0.0.1:8000/profile/") //-------------------
+    .then(responce => {
+      data = responce.data;
+      this.setState({
+        details: data
+      })
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+  render(){
+    return(
     <div className={editProfileStyles.mainDivEditProfilePage}>
       <Header/>
 
@@ -53,7 +71,7 @@ function EditProfilePage() {
     </div>
 
 
-  )
+  )}
 }
 
 export default EditProfilePage

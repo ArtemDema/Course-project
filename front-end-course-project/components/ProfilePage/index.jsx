@@ -1,8 +1,26 @@
 import profileStyles from "./ProfilePage.module.css"
 import Header from "../Header"
+import React from 'react'
+import axios from 'axios'
 
-function ProfilePage() {
-  return(
+class ProfilePage extends React.Component{
+  state = {details: [], }
+
+  componentDidMount(){
+    let data;
+    axios.get("http://127.0.0.1:8000/profile/") //-------------------
+    .then(responce => {
+      data = responce.data;
+      this.setState({
+        details: data
+      })
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+  render(){
+    return(
     <div className={profileStyles.mainDivProfilePage}>
       <Header/>
 
@@ -90,7 +108,7 @@ function ProfilePage() {
       </div>
     </div>
 
-  )
+  )}
 }
 
 export default ProfilePage

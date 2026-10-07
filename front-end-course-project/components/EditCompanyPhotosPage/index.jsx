@@ -1,8 +1,26 @@
 import editCompanyPhotoStyles from "./EditCompanyPhotosPage.module.css"
 import Header from "../Header"
+import React from 'react'
+import axios from 'axios'
 
-function EditCompanyPhotosPage() {
-  return(
+class EditCompanyPhotosPage extends React.Component{
+  state = {details: [], }
+
+  componentDidMount(){
+    let data;
+    axios.get("http://127.0.0.1:8000/company/") //-------------------
+    .then(responce => {
+      data = responce.data;
+      this.setState({
+        details: data
+      })
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+  render(){
+    return(
     <div className={editCompanyPhotoStyles.mainEditCompanyPhotosPage}>
       <Header/>
 
@@ -69,7 +87,7 @@ function EditCompanyPhotosPage() {
         </div>
       </div>
     </div>
-  )
+  )}
 }
 
 export default EditCompanyPhotosPage

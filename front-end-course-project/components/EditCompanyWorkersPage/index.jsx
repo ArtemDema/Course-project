@@ -1,8 +1,26 @@
 import editCompanyWorkersStyles from "./EditCompanyWorkersPage.module.css"
 import Header from "../Header"
+import React from 'react'
+import axios from 'axios'
 
-function EditCompanyWorkersPage() {
-  return(
+class EditCompanyWorkersPage extends React.Component{
+  state = {details: [], }
+
+  componentDidMount(){
+    let data;
+    axios.get("http://127.0.0.1:8000/company/") //-------------------
+    .then(responce => {
+      data = responce.data;
+      this.setState({
+        details: data
+      })
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+  render(){
+    return(
     <div className={editCompanyWorkersStyles.mainEditCompanyPage}>
       <Header/>
 
@@ -92,7 +110,7 @@ function EditCompanyWorkersPage() {
     </div>
 
 
-  )
+  )}
 }
 
 export default EditCompanyWorkersPage
