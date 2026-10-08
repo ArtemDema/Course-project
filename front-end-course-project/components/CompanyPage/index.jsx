@@ -26,53 +26,57 @@ class CompanyPage extends React.Component{
 
       <div className={companyStyles.contentDivCompanyPage}>
 
-        <div className={companyStyles.leftSide}>
-          <div className={companyStyles.backCompanyDiv}></div>
-          <h2>Фото підприємства</h2>
-          <div className={companyStyles.exampleCompanyAvatarDiv}></div>
-          <h2>FreshCode</h2>
-          <h3>Інформація про підприємство:</h3>
-          <h4>"Навчальний центр Freshcode — IT-освіта від IT-компаній!  Навчальний центр Freshcode проводить курси за найзатребуванішими для  IT-ринку напрямами: JavaScript-розробка та проєктний менеджмент. Ми надаємо кожному студенту практичні навички програмування та  менеджменту, що засновані на реальних, архівних проєктах, відпрацьованих в IT-компаніях.</h4>
-          <h3>Підприємство засновано у: 2017 рік</h3>
-          <h3>Контактний номер підприємства:</h3>
-          <div>
-            <h4>Им’я призвище - номер</h4>
+        {this.state.details.map((output, id) => (
+          <div className={companyStyles.leftSide} key={id}>
+            <div className={companyStyles.backCompanyDiv}></div>
+            <h2>Фото підприємства</h2>
+            <div className={companyStyles.exampleCompanyAvatarDiv}></div>
+            <h2>{output.name}</h2>
+            <h3>Інформація про підприємство:</h3>
+            <h4>{output.description}</h4>
+            <h3>Підприємство засновано у: {output.date_of_creation} рік</h3>
+            <h3>Контактний номер підприємства:</h3>
+            <div>
+              <h4>Им’я призвище - {output.contact_email}</h4>
+            </div>
           </div>
+        ))}
+        
+        {this.state.details.map((output, id) => (
+          <div className={companyStyles.rightSide}>
+            <h3>Робочий графік: з 9 до 17</h3>
+            <h3>Фотографії від компанії</h3>
+            <div className={companyStyles.PhotoDiv}>
+              <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+              <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+              <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+              <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+              <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+              <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+              <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+              <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+              <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+              <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+            </div>
 
-        </div>
+            <h2>Штаб</h2>
+            <div className={companyStyles.workersDiv}>
+              <h4>Им’я призвище - посада</h4>
+              <h4>Им’я призвище - посада</h4>
+              <h4>Им’я призвище - посада</h4>
+              <h4>Им’я призвище - посада</h4>
+              <h4>Им’я призвище - посада</h4>
+              <h4>Им’я призвище - посада</h4>
+              <h4>Им’я призвище - посада</h4>
+            </div>
 
-        <div className={companyStyles.rightSide}>
-          <h3>Робочий графік: з 9 до 17</h3>
-          <h3>Фотографії від компанії</h3>
-          <div className={companyStyles.PhotoDiv}>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
+            <h3 className={companyStyles.ProductText}>Продукція яку надає компанія та деталі про неї:</h3>
+            <h4>Назва продукції: {output.product}</h4>
+            <h4>Обсяг продукції, що виготовляється(якщо можливо порахувати): {output.volume_of_prodiction}</h4>
+            <h4>Опис продукції: {output.description_of_product}</h4>
           </div>
-
-          <h2>Штаб</h2>
-          <div className={companyStyles.workersDiv}>
-            <h4>Им’я призвище - посада</h4>
-            <h4>Им’я призвище - посада</h4>
-            <h4>Им’я призвище - посада</h4>
-            <h4>Им’я призвище - посада</h4>
-            <h4>Им’я призвище - посада</h4>
-            <h4>Им’я призвище - посада</h4>
-            <h4>Им’я призвище - посада</h4>
-          </div>
-
-          <h3 className={companyStyles.ProductText}>Продукція яку надає компанія та деталі про неї:</h3>
-          <h4>Назва продукції: Інформація</h4>
-          <h4>Обсяг продукції, що виготовляється(якщо можливо порахувати): недостатньо даних</h4>
-          <h4>Опис продукції: бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-бла-</h4>
-        </div>
+          ))}
+        
 
       </div>
     </div>

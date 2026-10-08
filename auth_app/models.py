@@ -10,6 +10,7 @@ class WorkerUser(AbstractUser):
     position = models.TextField(null=True, blank=True)
     phone_number = PhoneNumberField(null=False, blank=False)
     owned_company = models.OneToOneField(Company, on_delete=models.CASCADE, null=True, blank=True)
+    nationality = models.TextField(max_length=25, null=True, blank=True)
 
 class Worker(models.Model):
     user = models.OneToOneField(WorkerUser, on_delete=models.CASCADE)
