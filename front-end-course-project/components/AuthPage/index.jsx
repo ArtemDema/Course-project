@@ -1,5 +1,8 @@
 import authStyles from "./AuthPage.module.css"
 import { useState } from 'react';
+import AuthForm from "./FormikAuth";
+import RegisterForm from "./FormikRegistration";
+import ConfirmForm from "./FormikComfirm";
 
 function AuthPage() {
   // 'login', 'register-1', 'register-2', 'confirm'
@@ -13,64 +16,17 @@ function AuthPage() {
 
       <div className={authStyles.contentDiv}>
 
-        {/* 1. Авторизация */}
+        {/* Авторизация */}
         {currentScreen === 'login' && (
-          <div className={authStyles.authDiv}>
-            <div className={authStyles.authFormDiv}>
-              <div className={authStyles.authTextDiv}>
-                <h1>Авторизація</h1>
-                <h2>Увійдіть у свій аккаунт</h2>
-              </div>
-
-              <div className={authStyles.authFormInputDiv}>
-                <h3>Ваша пошта</h3>
-                <input type="text" />
-                <h3>Ваш пароль</h3>
-                <input type="text" />
-              </div>
-
-              <div className={authStyles.authFormConfirmDiv}>
-                <h2>У Вас немає аккаунта?</h2>
-                <button type="button" className={authStyles.backButton} onClick={() => setCurrentScreen('register-1')}>
-                  перейти до реєстрації
-                </button>
-                <button type="button" onClick={() => setCurrentScreen('register-1')}>
-                  Підтвердити</button>
-              </div>
-            </div>
-          </div>
+          <AuthForm setScreen={setCurrentScreen}/>
         )}
 
-        {/* 2. Регистрация Часть 1 */}
+        {/* Регистрация */}
         {currentScreen === 'register-1' && (
-          <div className={authStyles.authDiv}>
-            <div className={authStyles.authFormDiv}>
-              <div className={authStyles.authTextDiv}>
-                <h1>Реєстрація</h1>
-                <h2>Вкажіть деяку інформацію про себе</h2>
-              </div>
-
-              <div className={authStyles.registerFormInputDiv}>
-                <h3>Ваша пошта</h3>
-                <input type="text" />
-                <h3>Ваш пароль</h3>
-                <input type="text" />
-                <h3>Повторіть пароль</h3>
-                <input type="text" />
-              </div>
-
-              <div className={authStyles.authFormConfirmDiv}>
-                <h2>Вже є аккаунт?</h2>
-                <button type="button" className={authStyles.backButton} onClick={() => setCurrentScreen('login')}>
-                  перейти до авторизації
-                </button>
-                <button onClick={() => setCurrentScreen('register-2')}>Підтвердити</button>
-              </div>
-            </div>
-          </div>
+          <RegisterForm setScreen={setCurrentScreen}/>
         )}
 
-        {/* 3. Регистрация Часть 2 */}
+        {/* Регистрация 2 */}
         {currentScreen === 'register-2' && (
           <div className={authStyles.authDiv}>
             <div className={authStyles.authFormDiv}>
@@ -103,27 +59,7 @@ function AuthPage() {
 
         {/* Подтверждение почты */}
         {currentScreen === 'confirm' && (
-          <div className={authStyles.confrimDiv}>
-            <div className={authStyles.authFormDiv}>
-              <div className={authStyles.authTextDiv}>
-                <h1>Підтвердіть свою пошту</h1>
-                <h2>Код відправлено вам на вказану пошту</h2>
-              </div>
-
-              <div className={authStyles.confrimFormInputDiv}>
-                <input type="text" /><input type="text" /><input type="text" /><input type="text" />
-                <input type="text" /><input type="text" /><input type="text" /><input type="text" />
-              </div>
-
-              <div className={authStyles.authFormConfirmDiv}>
-                <h2>Помилились або бажаєте щось змінити?</h2>
-                <button type="button" className={authStyles.backButton} onClick={() => setCurrentScreen('register-2')}>
-                  повернутися до реєстрації
-                </button>
-                <button>Підтвердити</button>
-              </div>
-            </div>
-          </div>
+          <ConfirmForm setScreen={setCurrentScreen}/>
         )}
 
       </div>
