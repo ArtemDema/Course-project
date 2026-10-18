@@ -1,66 +1,74 @@
 /* База */
 .contentDivHomePage{
+  background-image: linear-gradient(-45deg, #0084FF, #FFFFFF);
   width: 100%;
-  height: calc(100% - 75px);
+  min-height: calc(100vh - 75px);
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  
 }
 
 .mainDivHomePage{
   width: 100%;
-  height: 100%;
+  min-height: 100vh; 
 }
 
-/* Левая сторона */
-.leftSide{
-  background-color: #FCF3F4;
+/* Extra сторона */
+.extraSide{
   width: 100%;
-  height: 100%;
-  max-width: 480px;
+  height: auto;
+  max-width: 360px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 20px;
-  padding: 25px 15px;
+  padding: 15px 20px;
   box-sizing: border-box;
 }
 
-.avatar{
-  background-color: red;
-  border-radius: 1234px;
-  width: 135px;
-  height: 135px;
-}
-
-.profileInfo{
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  justify-content: flex-start;
-}
-
-.textInfo{
-  font-family: 'JetBrains-Regular';
-  font-size: 24px;
-}
-
-.toProfileButton{
+.salaryDiv{
   width: 100%;
   height: 100%;
-  max-width: 230px;
-  max-height: 50px;
+  max-width: 176px;
+  min-height: 63px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: 'JetBrains-Medium';
+}
+
+.salaryExample{
+  width: 100%;
+  height: 100%;
+  max-width: 110px;
+  max-height: 40px;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border: none;
-  border-radius: 12px;
-  background-color: #C3C5C4;
-  font-family: 'JetBrains-Bold';
-  font-size: 20px;
+  font-family: 'JetBrains-Medium';
+}
+
+.ThemeDiv{
+  width: 100%;
+  height: 100%;
+  max-width: 320px;
+  max-height: 40px;
+  min-height: 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  font-family: 'JetBrains-Medium';
 }
 
 /* Правая сторона */
 .rightSide{
-  background-color: #FFFFFF;
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-width: 1180px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,38 +79,70 @@
 }
 
 .searchDiv{
-  background-color: #DBDBDB;
+  background-color: #FFFFFF;
   border-radius: 1234px;
   width: 100%;
   height: 100%;
   max-width: 550px;
   max-height: 50px;
+  border: 1px solid black;
+  font-family: 'JetBrains-Medium';
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 15px;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.exampleFactory{
+.exampleVacancy, .exampleResume{
   width: 100%;
   height: 100%;
-  max-width: 1410px;
-  max-height: 175px;
-  background-color: #FCF3F4;
+  max-width: 1150px;
+  max-height: 290px;
+  background-color: #CDFFF3;
   border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0px;
+  box-sizing: border-box;
+}
+
+.exampleResume{
+  max-height: 420px;
+}
+
+.nameDiv{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 100%;
+  padding: 0 15px;
   align-items: center;
-  gap: 20px;
-  padding: 0 15px 0 0;
   box-sizing: border-box;
+  height: 100%;
+  max-height: 120px;
+}
 
+.infoDiv{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  justify-content: flex-start;
 }
 
 .exampleFactoryPhoto{
   width: 100%;
   height: 100%;
-  max-width: 175px;
-  max-height: 175px;
+  max-width: 120px;
+  max-height: 120px;
   background-color: gray;
-  border-radius: 6px 0 0 6px;
 }
 
 .textFactoryName{
@@ -125,4 +165,100 @@
   border: none;
   border-radius: 15px;
   background-color: #5D506B;
+}
+
+.searchTypeDiv{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.typeOfSearchButton{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  max-width: 125px;
+  max-height: 45px;
+  border: none;
+  background-color: white;
+  border-radius: 1234px;
+  justify-content: center;
+  align-items: center;
+  font-family: 'JetBrains-Medium';
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.typeOfSearchSelectButton{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  max-width: 125px;
+  max-height: 45px;
+  border: none;
+  background-color: #D6E6F0;
+  border-radius: 1234px;
+  justify-content: center;
+  align-items: center;
+  font-family: 'JetBrains-Medium';
+  box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.ThemeExample{
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  max-width: 30px;
+  max-height: 30px;
+  border-radius: 6px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+
+.hiddenCheckbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.ThemeExample {
+  position: relative;
+  width: 24px;
+  height: 24px;  
+  background-color: #ffffff;
+  border-radius: 6px;
+  margin-right: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.hiddenCheckbox:checked + .ThemeExample {
+  background-color: #4a90e2;
+}
+
+.ThemeExample::after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 8px;
+  top: 4px;
+  width: 6px;
+  height: 11px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.hiddenCheckbox:checked + .ThemeExample::after {
+  display: block;
 }

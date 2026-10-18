@@ -3,10 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import AuthPage from "../components/AuthPage"
 import CompanyPage from "../components/CompanyPage"
-import EditCompanyInfoPage from "../components/EditCompanyInfoPage"
 import EditCompanyPage from "../components/EditCompanyPage"
-import EditCompanyPhotosPage from "../components/EditCompanyPhotosPage"
-import EditCompanyWorkersPage from "../components/EditCompanyWorkersPage"
 import EditProfilePage from "../components/EditProfilePage"
 import HomePage from "../components/HomePage"
 import ProfilePage from "../components/ProfilePage"
@@ -23,9 +20,6 @@ class App extends React.Component{
           <Route path="editProfile" element={<EditProfilePage />} />
           <Route path="auth" element={<AuthPage />} />
           <Route path="editCompany" element={<EditCompanyPage />} />
-          <Route path="editCompanyInfo" element={<EditCompanyInfoPage />} />
-          <Route path="editCompanyPhotos" element={<EditCompanyPhotosPage />} />
-          <Route path="editCompanyWorkers" element={<EditCompanyWorkersPage />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

@@ -3,9 +3,15 @@ import headerStyles from "./Header.module.css"
 function Header() {
     return(
         <div id={headerStyles.header}>
-            <h1>Ім’ев</h1>
-            <h1>Головна</h1>
-            <h1>Вийти з аккаунта</h1>
+            <div className={headerStyles.avatarDiv}></div>
+
+            <div className={headerStyles.mainButton}>
+              <button type="button">Головна</button>
+              <button type="button">Профіль</button>
+              <button type="button">Налаштування</button>
+            </div>
+
+            <button type="button" id={headerStyles.exitButton}></button>
         </div>
     )
     
