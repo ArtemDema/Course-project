@@ -22,7 +22,7 @@ class ProfilePage extends React.Component{
   render(){
     return(
     <div className={profileStyles.mainDivProfilePage}>
-      <Header/>
+      <Header typeOfScreen={"profile"} />
 
       <div className={profileStyles.contentDivProfilePage}>
         <div className={profileStyles.leftSide}>

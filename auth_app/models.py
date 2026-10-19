@@ -12,13 +12,6 @@ class WorkerUser(AbstractUser):
     city = models.TextField(max_length=50, null=True, blank=True)
     education = models.TextField(null=True, blank=True)
     about_me = models.TextField(null=True, blank=True)
-
-class Resume(models.Model):
-    owner = models.OneToOneField(WorkerUser, on_delete=models.CASCADE)
-    experience = models.TextField(null=True, blank=True)
-    desired_position_1 = models.TextField()
-    desired_positio_2 = models.TextField(null=True, blank=True)
-    desired_position_3 = models.TextField(null=True, blank=True)
     
 
 class PhotoProfile(models.Model):

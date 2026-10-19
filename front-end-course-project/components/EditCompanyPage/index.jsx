@@ -22,7 +22,7 @@ class EditCompanyPage extends React.Component{
   render(){
     return(
     <div className={editCompanyStyles.mainEditCompanyPage}>
-      <Header/>
+      <Header typeOfScreen={"settings"}/>
 
       <div className={editCompanyStyles.contentEditCompany}>
         {this.state.details.map((output, id) => (

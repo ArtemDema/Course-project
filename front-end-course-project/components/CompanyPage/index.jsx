@@ -22,7 +22,7 @@ class CompanyPage extends React.Component{
   render(){
     return(
     <div className={companyStyles.mainDivCompanyPage}>
-      <Header/>
+      <Header typeOfScreen={"main"} />
 
       <div className={companyStyles.contentDivCompanyPage}>
 

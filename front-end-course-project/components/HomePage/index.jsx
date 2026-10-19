@@ -1,137 +1,236 @@
 import homeStyles from "./HomePage.module.css"
 import Header from "../Header"
-import { useState } from 'react';
+import React from 'react';
+import axios from 'axios';
 
-function HomePage() {
-  const list_of_filters = [
+class HomePage extends React.Component {
+  state = {
+    vacancies: [],
+    resumes: [],
+    currentType: 'vacancy',
+    selectedFilters: [],
+    
+
+    searchPosition: '',
+    salaryMin: 'none',
+    salaryMax: 'none'
+  }
+
+  componentDidMount() {
+    Promise.all([
+      axios.get("http://127.0.0.1:8000/vacancy/"),
+      axios.get("http://127.0.0.1:8000/resume/")
+    ])
+    .then(([vacanciesResponse, resumesResponse]) => {
+      this.setState({
+        vacancies: vacanciesResponse.data,
+        resumes: resumesResponse.data
+      });
+    })
+    .catch(error => {
+      console.log("Помилка завантаження даних:", error);
+    });
+  }
+
+  list_of_filters = [
     "IT", "Автобізнес та автосервіс", "Архітектура, дизайн інтер'єру", "Будівельна промисловість",
-    "Бухгалтерія", "Видавництво", "Готельно-ресторанний бізнес", "Державні організації", "Енергетика", "ЗМІ", "Краса, фітнес, спорт",
+    "Бухгалтерія", "Видавництво", "Готельно-ресторанний бізнес", "Державні організації", "Енергетика", "ЗМІ", "Краса, фитнес, спорт",
     "Легка промисловість", "Маркетинг та реклама", "Машинобудування", "Медицина та охорона здоров'я", "Металургійна промисловість",
     "Нерухомість", "Оборонна промисловість", "Оптова торгівля", "Освіта", "Послуги для бізнесу", "Роздрібна торгівля",
     "Сили оборони", "Телекмунікації та зв'язок", "Транспорт та логістика", "Туризм", "Фінанси, банки, страхування",
     "Харчова промисловість", "Шоу-бізнес, мистецтво, культура", "Юриспруденція"
   ];
 
-  // 'vacancy', 'resume'
-  const [currentType, setCurrentType] = useState('vacancy');
+  handleTypeChange = (newType) => {
+    this.setState({ currentType: newType });
+  };
 
-  const [selectedFilters, setSelectedFilters] = useState([]);
-
-  const handleFilterChange = (filterName) => {
-    setSelectedFilters((prevSelected) => {
-      if (prevSelected.includes(filterName)) {
-        return prevSelected.filter(item => item !== filterName);
+  handleFilterChange = (filterName) => {
+    this.setState((prevState) => {
+      const { selectedFilters } = prevState;
+      if (selectedFilters.includes(filterName)) {
+        return { selectedFilters: selectedFilters.filter(item => item !== filterName) };
       } else {
-        return [...prevSelected, filterName];
+        return { selectedFilters: [...selectedFilters, filterName] };
       }
     });
   };
 
-  return (
-    <div className={homeStyles.mainDivHomePage}>
-      <Header />
+  render() {
+    const { 
+      vacancies, 
+      resumes, 
+      currentType, 
+      selectedFilters, 
+      searchPosition, 
+      salaryMin, 
+      salaryMax 
+    } = this.state;
 
-      <div className={homeStyles.contentDivHomePage}>
-        <div className={homeStyles.rightSide}>
-          <div className={homeStyles.searchTypeDiv}>
-            <div className={homeStyles.searchDiv}>Пошук</div>
-            {currentType === 'vacancy' && (
-              <>
-                <button className={homeStyles.typeOfSearchSelectButton} onClick={() => setCurrentType('vacancy')}>Вакансії</button>
-                <button className={homeStyles.typeOfSearchButton} onClick={() => setCurrentType('resume')}>Резюме</button>
-              </>
-            )}
+    const currentData = currentType === 'vacancy' ? vacancies : resumes;
 
-            {currentType === 'resume' && (
-              <>
-                <button className={homeStyles.typeOfSearchButton} onClick={() => setCurrentType('vacancy')}>Вакансії</button>
-                <button className={homeStyles.typeOfSearchSelectButton} onClick={() => setCurrentType('resume')}>Резюме</button>
-              </>
-            )}
-          </div>
+    const filteredData = currentData.filter(item => {
+      if (searchPosition) {
+        const search = searchPosition.toLowerCase().trim();
 
-          {currentType === 'vacancy' && (
-            <div className={homeStyles.exampleVacancy}>
-              <div className={homeStyles.nameDiv}>
-                <div className={homeStyles.textFactoryName}>Головний спеціаліст загального відділу</div>
-                <div className={homeStyles.exampleFactoryPhoto}></div>
-              </div>
+        if (currentType === 'vacancy') {
+          const position = String(item.desired_position || '').toLowerCase();
+          if (!position.includes(search)) return false;
+        } else {
+          const pos1 = String(item.desired_position_1 || '').toLowerCase();
+          const pos2 = String(item.desired_position_2 || '').toLowerCase();
+          const pos3 = String(item.desired_position_3 || '').toLowerCase();
 
-              <div className={homeStyles.infoDiv}>
-                <div className={homeStyles.textFactory}>Місто: Запоріжжя</div>
-                <div className={homeStyles.textFactory}>Заробітна плата: 20 000 грн.</div>
-              </div>
+          if (!pos1.includes(search) && !pos2.includes(search) && !pos3.includes(search)) {
+            return false;
+          }
+        }
+      }
 
-              <button type="button" className={homeStyles.textFactoryButton}>Показати більше</button>
-            </div>
-          )}
+      const itemSalary = item.salary_price ? Number(String(item.salary_price).replace(/\s/g, '')) : 0;
+      if (salaryMin !== 'none' && itemSalary) {
+        if (itemSalary < Number(salaryMin)) return false;
+      }
 
-          {currentType === 'resume' && (
-            <div className={homeStyles.exampleResume}>
-              <div className={homeStyles.nameDiv}>
-                <div className={homeStyles.textFactoryName}>Ім’ев Призвищевич</div>
-                <div className={homeStyles.exampleFactoryPhoto}></div>
-              </div>
+      if (salaryMax !== 'none' && itemSalary) {
+        if (itemSalary > Number(salaryMax)) return false;
+      }
 
-              <div className={homeStyles.infoDiv}>
-                <div className={homeStyles.textFactory}>Місто: Запоріжжя</div>
-                <div className={homeStyles.textFactory}>Галузь: ІТ</div>
-                <div className={homeStyles.textFactory}>Бажана посада: Головний спеціаліст загального відділу</div>
-                <div className={homeStyles.textFactory}>Бажана заробітна плата: 20 000 грн.</div>
-              </div>
+      if (selectedFilters.length > 0) {
+        const itemSphere = currentType === 'vacancy' ? item.type_of_vacancy : item.type_of_resume;
+        
+        if (!itemSphere || !selectedFilters.includes(itemSphere)) return false;
+      }
 
-              <button type="button" className={homeStyles.textFactoryButton}>Показати більше</button>
-            </div>
-          )}
+      return true;
+    });
 
-        </div>
+    return (
+      <div className={homeStyles.mainDivHomePage}>
+        <Header typeOfScreen={"main"} />
 
-        <div className={homeStyles.extraSide}>
-          <h2>Фільтрація</h2>
-
-          <h3>Зарплата</h3>
-
-          <div className={homeStyles.salaryDiv}>
-            <h4>від:</h4>
-            <select name="start" id="" className={homeStyles.salaryExample}>
-              <option value="none"></option>
-              <option value="10000">10 000грн.</option>
-              <option value="20000">20 000грн.</option>
-              <option value="50000">50 000грн.</option>
-              <option value="100000">100 000грн.</option>
-            </select>
-          </div>
-
-          <div className={homeStyles.salaryDiv}>
-            <h4>до:</h4>
-            <select name="start" id="" className={homeStyles.salaryExample}>
-              <option value="none"></option>
-              <option value="10000">10 000грн.</option>
-              <option value="20000">20 000грн.</option>
-              <option value="50000">50 000грн.</option>
-              <option value="100000">100 000грн.</option>
-            </select>
-          </div>
-
-          <h3>Сфера діяльності</h3>
-          
-          {list_of_filters.map((filterName, index) => (
-            <label key={index} className={homeStyles.ThemeDiv}>
+        <div className={homeStyles.contentDivHomePage}>
+          <div className={homeStyles.rightSide}>
+            <div className={homeStyles.searchTypeDiv}>
+              
               <input
-                type="checkbox"
-                className={homeStyles.hiddenCheckbox}
-                checked={selectedFilters.includes(filterName)}
-                onChange={() => handleFilterChange(filterName)}
+                type="text" 
+                placeholder={currentType === 'vacancy' ? "Пошук за посадою..." : "Пошук бажаної посади..."}
+                value={searchPosition}
+                onChange={(e) => this.setState({ searchPosition: e.target.value })}
+                className={homeStyles.searchInput} 
               />
-              <div className={homeStyles.ThemeExample}></div>
-              <h4>{filterName}</h4>
-            </label>
-          ))}
-          
+              {currentType === 'vacancy' && (
+                <>
+                  <button className={homeStyles.typeOfSearchSelectButton} onClick={() => this.handleTypeChange('vacancy')}>Вакансії</button>
+                  <button className={homeStyles.typeOfSearchButton} onClick={() => this.handleTypeChange('resume')}>Резюме</button>
+                </>
+              )}
+
+              {currentType === 'resume' && (
+                <>
+                  <button className={homeStyles.typeOfSearchButton} onClick={() => this.handleTypeChange('vacancy')}>Вакансії</button>
+                  <button className={homeStyles.typeOfSearchSelectButton} onClick={() => this.handleTypeChange('resume')}>Резюме</button>
+                </>
+              )}
+            </div>
+
+            {filteredData.map((item, index) => (
+              <div 
+                key={item.id || index} 
+                className={currentType === 'vacancy' ? homeStyles.exampleVacancy : homeStyles.exampleResume}
+              >
+                <div className={homeStyles.nameDiv}>
+                  <div className={homeStyles.textFactoryName}>
+                    
+                    {currentType === 'vacancy' ? item.desired_position : item.owner}
+                  </div>
+                  <div className={homeStyles.exampleFactoryPhoto}></div>
+                </div>
+
+                <div className={homeStyles.infoDiv}>
+                  {currentType === 'resume' && (
+                    <>
+                      <div className={homeStyles.textFactory}>
+                        Бажані посади: {item.desired_position_1}
+                      </div>
+                      {item.type_of_resume && <div className={homeStyles.textFactory}>Галузь: {item.type_of_resume}</div>}
+                    </>
+                  )}
+                  
+                  <div className={homeStyles.textFactory}>Досвід роботи: {item.experience || "Без досвіду"}</div>
+                  <div className={homeStyles.textFactory}>Заробітна плата: {item.salary_price || "Не вказано"} грн.</div>
+                </div>
+
+                <button type="button" className={homeStyles.textFactoryButton}>Показати більше</button>
+              </div>
+            ))}
+
+            {filteredData.length === 0 && (
+              <div className={homeStyles.noResults} style={{textAlign: 'center', marginTop: '20px'}}>
+                Нічого не знайдено за вашими критеріями
+              </div>
+            )}
+
+          </div>
+
+          <div className={homeStyles.extraSide}>
+            <h2>Фільтрація</h2>
+
+            <h3>Зарплата</h3>
+
+            <div className={homeStyles.salaryDiv}>
+              <h4>від:</h4>
+              <select 
+                name="start" 
+                value={salaryMin} 
+                onChange={(e) => this.setState({ salaryMin: e.target.value })} 
+                className={homeStyles.salaryExample}
+              >
+                <option value="none">Будь-яка</option>
+                <option value="10000">10 000грн.</option>
+                <option value="20000">20 000грн.</option>
+                <option value="50000">50 000грн.</option>
+                <option value="100000">100 000грн.</option>
+              </select>
+            </div>
+
+            <div className={homeStyles.salaryDiv}>
+              <h4>до:</h4>
+              <select 
+                name="end" 
+                value={salaryMax} 
+                onChange={(e) => this.setState({ salaryMax: e.target.value })} 
+                className={homeStyles.salaryExample}
+              >
+                <option value="none">Будь-яка</option>
+                <option value="10000">10 000грн.</option>
+                <option value="20000">20 000грн.</option>
+                <option value="50000">50 000грн.</option>
+                <option value="100000">100 000грн.</option>
+              </select>
+            </div>
+
+            <h3>Сфера діяльності</h3>
+            
+            {this.list_of_filters.map((filterName, index) => (
+              <label key={index} className={homeStyles.ThemeDiv}>
+                <input
+                  type="checkbox"
+                  className={homeStyles.hiddenCheckbox}
+                  checked={selectedFilters.includes(filterName)}
+                  onChange={() => this.handleFilterChange(filterName)}
+                />
+                <div className={homeStyles.ThemeExample}></div>
+                <h4>{filterName}</h4>
+              </label>
+            ))}
+            
+          </div>
         </div>
       </div>
-    </div>
-  )
+    );
+  }
 }
 
-export default HomePage
+export default HomePage;

@@ -12,10 +12,11 @@ class UserRender(APIView):
                 "first_name": output.first_name, 
                 "email": output.email, 
                 "last_name": output.last_name, 
-                "position": output.position, 
+                "city": output.city, 
                 "phone_number": output.phone_number, 
                 "owned_company": output.owned_company.id,
-                "nationality": output.nationality
+                "education": output.education,
+                "about_me": output.about_me
             } for output in WorkerUser.objects.all()
         ]
         return Response(output)

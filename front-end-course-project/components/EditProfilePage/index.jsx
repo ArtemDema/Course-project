@@ -22,7 +22,7 @@ class EditProfilePage extends React.Component{
   render(){
     return(
     <div className={editProfileStyles.mainDivEditProfilePage}>
-      <Header/>
+      <Header typeOfScreen={"settings"} />
 
       <div className={editProfileStyles.contentDivEditProfilePage}>
         {this.state.details.map((output, id) => (
