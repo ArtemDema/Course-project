@@ -4,10 +4,10 @@
 }
 
 .leftSide{
-  background-color: #FCF3F4;
+  background-color: #D5EBFF;;
   width: 100%;
   height: 100%;
-  max-width: 480px;
+  max-width: 650px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,6 +28,8 @@
   flex-direction: column;
   gap: 20px;
   justify-content: flex-start;
+  width: 100%;
+  max-width: 500px;
 }
 
 .textInfo{
@@ -52,15 +54,8 @@
   height: calc(100% - 75px);
 }
 
-.leftSide{
-  background-color: #FCF3F4;
-  width: 100%;
-  height: 100%;
-  max-width: 650px;
-}
-
 .rightSide{
-  background-color: #E5E2EB;
+  background-color: #FFFFFF;
   width: 100%;
   height: 100%;
   display: flex;
@@ -156,4 +151,11 @@
   height: 100%;
   justify-content: flex-end;
   align-items: center;
+}
+
+.rightSide h4{
+  font-family: 'JetBrains-Medium';
+  font-size: 18px;
+  width: 90%;
+  text-align: center;
 }

@@ -8,7 +8,7 @@ class ProfilePage extends React.Component{
 
   componentDidMount(){
     let data;
-    axios.get("http://127.0.0.1:8000/profile/") //-------------------
+    axios.get("http://127.0.0.1:8000/user/") //-------------------
     .then(responce => {
       data = responce.data;
       this.setState({
@@ -24,88 +24,29 @@ class ProfilePage extends React.Component{
     <div className={profileStyles.mainDivProfilePage}>
       <Header typeOfScreen={"profile"} />
 
-      <div className={profileStyles.contentDivProfilePage}>
-        <div className={profileStyles.leftSide}>
-          <div className={profileStyles.backDiv}>
-            <div className={profileStyles.backImageDiv}></div>
-            <h4>Повернутися до останньої сторінки</h4>
-          </div>
-          <div className={profileStyles.avatar}></div>
-          <h1>Ім’ев Призвищевич</h1>
+      
+        {this.state.details.map((output, id) => (
+          <div className={profileStyles.contentDivProfilePage}>
+          <div className={profileStyles.leftSide} key={id}>
+            <div className={profileStyles.avatar}></div>
+              <h1>{output.first_name} {output.last_name}</h1>
 
-          <div className={profileStyles.profileInfo}>
-            <h3 className={profileStyles.textInfo}>Вік: 666</h3>
-            <h3 className={profileStyles.textInfo}>Національність: Марсіанін</h3>
-            <h3 className={profileStyles.textInfo}>Освіта: Немає</h3>
-            <h3 className={profileStyles.textInfo}>Пошта: markabobus@gmail.com</h3>
-            <h3 className={profileStyles.textInfo}>Поточне місце роботи: ФОП "Призвищевич А.А.”</h3>
-          </div>
-
-        </div>
-        <div className={profileStyles.rightSide}>
-          <h1>Історія місць роботи</h1>
-
-          <div className={profileStyles.exampleFactory}>
-            <div className={profileStyles.exampleFactoryPhoto}></div>
-
-            <div className={profileStyles.infoFactoryTextDiv}>
-              <div className={profileStyles.textFactoryName}>Назва підприемства: FreshCode</div>
-              <div className={profileStyles.textFactory}>Період роботи: в стані роботи</div>
-              <div className={profileStyles.textFactory}>Займана посада: Back-end розробник</div>
-            </div>
-
-            <div className={profileStyles.buttonDiv}>
-              <button type="button" className={profileStyles.textFactoryButton}>Показати більше</button>
+              <div className={profileStyles.profileInfo}>
+                <h3 className={profileStyles.textInfo}>Вік: 666</h3>
+                <h3 className={profileStyles.textInfo}>Місто: {output.city}</h3>
+                <h3 className={profileStyles.textInfo}>Освіта: {output.education}</h3>
+                <h3 className={profileStyles.textInfo}>Пошта: {output.email}</h3>
+                <h3 className={profileStyles.textInfo}>Навички: Не вказано</h3>
             </div>
           </div>
 
-          <div className={profileStyles.exampleFactory}>
-            <div className={profileStyles.exampleFactoryPhoto}></div>
+          <div className={profileStyles.rightSide}>
+            <h1>Про мене</h1>
 
-            <div className={profileStyles.infoFactoryTextDiv}>
-              <div className={profileStyles.textFactoryName}>Назва підприемства: FreshCode</div>
-              <div className={profileStyles.textFactory}>Період роботи: 0.00.0000 - 0.00.0000</div>
-              <div className={profileStyles.textFactory}>Займана посада: Back-end розробник</div>
-            </div>
-
-
-            <div className={profileStyles.buttonDiv}>
-              <button type="button" className={profileStyles.textFactoryButton}>Показати більше</button>
-            </div>
-          </div>
-
-          <div className={profileStyles.exampleFactory}>
-            <div className={profileStyles.exampleFactoryPhoto}></div>
-
-            <div className={profileStyles.infoFactoryTextDiv}>
-              <div className={profileStyles.textFactoryName}>Назва підприемства: FreshCode</div>
-              <div className={profileStyles.textFactory}>Період роботи: 0.00.0000 - 0.00.0000</div>
-              <div className={profileStyles.textFactory}>Займана посада: Back-end розробник</div>
-            </div>
-
-
-            <div className={profileStyles.buttonDiv}>
-              <button type="button" className={profileStyles.textFactoryButton}>Показати більше</button>
-            </div>
-          </div>
-
-          <div className={profileStyles.exampleFactory}>
-            <div className={profileStyles.exampleFactoryPhoto}></div>
-
-            <div className={profileStyles.infoFactoryTextDiv}>
-              <div className={profileStyles.textFactoryName}>Назва підприемства: FreshCode</div>
-              <div className={profileStyles.textFactory}>Період роботи: 0.00.0000 - 0.00.0000</div>
-              <div className={profileStyles.textFactory}>Займана посада: Back-end розробник</div>
-            </div>
-
-
-            <div className={profileStyles.buttonDiv}>
-              <button type="button" className={profileStyles.textFactoryButton}>Показати більше</button>
-            </div>
+            <h4>{output.about_me}</h4>
           </div>
         </div>
-
-      </div>
+        ))}
     </div>
 
   )}

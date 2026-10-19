@@ -17,14 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from company_app.views import CompanyRender
-from auth_app.views import UserRender
+from auth_app.views import UserListView, UserDetailView, CurrentUserView
 from vacancy_app.views import VacancyRender
 from resume_app.views import ResumeRender
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("company/", CompanyRender.as_view()),
-    path("user/", UserRender.as_view()),
+    path('user/', UserListView.as_view()),
+    path('user/me/', CurrentUserView.as_view()),
+    path('user/<int:id>/', UserDetailView.as_view()),
     path("resume/", ResumeRender.as_view()),
     path("vacancy/", VacancyRender.as_view()),
 ]

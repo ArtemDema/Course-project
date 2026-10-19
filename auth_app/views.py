@@ -1,28 +1,25 @@
 from django.shortcuts import render
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from .models import *
 from .serializer import *
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.generics import RetrieveUpdateAPIView, ListCreateAPIView
+from .models import WorkerUser
+from .serializer import UserSerializer
 
 # Create your views here.
-class UserRender(APIView):
+class CurrentUserView(APIView):
     def get(self, request):
-        output = [
-            {
-                "first_name": output.first_name, 
-                "email": output.email, 
-                "last_name": output.last_name, 
-                "city": output.city, 
-                "phone_number": output.phone_number, 
-                "owned_company": output.owned_company.id,
-                "education": output.education,
-                "about_me": output.about_me
-            } for output in WorkerUser.objects.all()
-        ]
-        return Response(output)
+        user = WorkerUser.objects.filter(id=0).first() 
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
 
-    def post(self, request):
-        serializer = UserSerializer(data = request.data)
-        if serializer.is_valid(raise_exception = True):
-            serializer.save()
-            return Response(serializer.data)
+class UserListView(ListCreateAPIView):
+    queryset = WorkerUser.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetailView(RetrieveUpdateAPIView):
+    queryset = WorkerUser.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'id'
