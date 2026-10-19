@@ -36,7 +36,7 @@
 
 .textInfo{
   font-family: 'JetBrains-Regular';
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .textInfoDiv{
@@ -183,6 +183,24 @@
   max-height: 50px;
   font-family: 'JetBrains-Bold';
   font-size: 20px;
+}
+
+.activeButton{
+  background-color: white;
+  border: 3px solid black;
+}
+
+.editInput{
+  width: 100%;
+  height: 100%;
+  max-width: 300px;
+  max-height: 50px;
+  background-color: white;
+  border: 1.5px solid black;
+  font-family: 'JetBrains-Medium';
+  border-radius: 15px;
+  text-align: center;
+  font-size: 18px;
 }
 
 .editProfilePhoto{
