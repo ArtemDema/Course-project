@@ -8,3 +8,5 @@ class UserSerializer(ModelSerializer):
             "id", "first_name", "email", "last_name", "city", 
             "owned_company", "education", "about_me", "date_joined", "birthday"
         ]
+
+        read_only_fields = ['date_joined', 'id']

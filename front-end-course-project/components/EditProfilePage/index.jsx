@@ -6,7 +6,8 @@ import axios from 'axios'
 class EditProfilePage extends React.Component {
   state = {
     details: null,
-    activeField: null
+    activeField: null,
+    resume: null
   }
 
   componentDidMount() {
@@ -18,6 +19,21 @@ class EditProfilePage extends React.Component {
       })
       .catch(error => {
         console.log(error)
+      })
+
+      axios.get("http://127.0.0.1:8000/resume/")
+      .then(responce => {
+        const allResumes = responce.data;
+        
+        
+        const userResume = allResumes.find(resume => resume.owner_id === 0);
+
+        this.setState({
+          resume: userResume || null
+        });
+      })
+      .catch(error => {
+        console.error("Помилка:", error);
       })
   }
 
@@ -45,7 +61,6 @@ class EditProfilePage extends React.Component {
     
     delete dataToSend.date_joined;
     delete dataToSend.id;
-    delete dataToSend.phone_number;
 
     axios.patch("http://127.0.0.1:8000/user/me/", dataToSend)
       .then(responce => {
@@ -60,7 +75,7 @@ class EditProfilePage extends React.Component {
   };
 
   render() {
-    const { details, activeField } = this.state;
+    const { details, activeField, resume } = this.state;
     return (
       <div className={editProfileStyles.mainDivEditProfilePage}>
         <Header typeOfScreen={"settings"} />
@@ -209,11 +224,75 @@ class EditProfilePage extends React.Component {
         
           <div className={editProfileStyles.rightSide}>
             <h1>Редагування резюме</h1>
-            <h2>Зараз в вас немає резюме</h2>
+            {resume ? (
+              <div className={editProfileStyles.editResume}>
+                <h1>Розглядаю посади:</h1>
+                <div className={editProfileStyles.desiredPositionDiv}>
+                  <div className={editProfileStyles.desiredPositionDivButton}>
+                    {resume.desired_position_1 ? (
+                      <h3>{resume.desired_position_1}</h3>
+                    ): (
+                      <h3>Вкажіть назву посади</h3>
+                    )}
+                    <button type="button" 
+                    className={`${editProfileStyles.editInfoButton} ${activeField === 'desired_p_1' ? editProfileStyles.activeButton : ''}`}
+                    onClick={() => this.toggleEdit('desired_p_1')}>{activeField === 'desired_p_1' ? 'Зберегти' : 'Редагувати'}</button>
+                  </div>
+                  
 
-            <div className={editProfileStyles.buttonDiv}>
-              <button type="button" className={editProfileStyles.resumeFactoryButton}>Створити резюме</button>
-            </div>
+                  <div className={editProfileStyles.desiredPositionDivButton}>
+                    {resume.desired_position_2 ? (
+                      <h3>{resume.desired_position_2}</h3>
+                    ): (
+                      <h3>Вкажіть назву посади</h3>
+                    )}
+                    <button type="button" 
+                    className={`${editProfileStyles.editInfoButton} ${activeField === 'desired_p_2' ? editProfileStyles.activeButton : ''}`}
+                    onClick={() => this.toggleEdit('desired_p_2')}>{activeField === 'desired_p_2' ? 'Зберегти' : 'Редагувати'}</button>
+                  </div>
+
+                  <div className={editProfileStyles.desiredPositionDivButton}>
+                    {resume.desired_position_3 ? (
+                      <h3>{resume.desired_position_3}</h3>
+                    ): (
+                      <h3>Вкажіть назву посади</h3>
+                    )}
+                    <button type="button" 
+                    className={`${editProfileStyles.editInfoButton} ${activeField === 'desired_p_3' ? editProfileStyles.activeButton : ''}`}
+                    onClick={() => this.toggleEdit('desired_p_3')}>{activeField === 'desired_p_3' ? 'Зберегти' : 'Редагувати'}</button>
+                  </div>
+                  
+                  <div className={editProfileStyles.desiredPositionDivButton}>
+                    <h3>Бажана зарплата: {resume.salary_price || "Не вказано"}</h3>
+                    <button type="button" 
+                    className={`${editProfileStyles.editInfoButton} ${activeField === 'salary_price' ? editProfileStyles.activeButton : ''}`}
+                    onClick={() => this.toggleEdit('salary_price')}>{activeField === 'salary_price' ? 'Зберегти' : 'Редагувати'}</button>
+                  </div>
+                </div>
+                
+                <h1>Досвід роботи:</h1>
+                <h4>{resume.experience || "Не вказано"}</h4>
+                <div className={editProfileStyles.buttonDiv}>
+                  <button type="button" 
+                    className={`${editProfileStyles.editInfoButton} ${activeField === 'experience' ? editProfileStyles.activeButton : ''}`}
+                    onClick={() => this.toggleEdit('experience')}>{activeField === 'experience' ? 'Зберегти' : 'Редагувати'}</button>
+                </div>
+                
+                <div className={editProfileStyles.saveDeleteButtonDiv}>
+                  <button type="button" className={editProfileStyles.saveEditedButton}>Зберегти зміни резюме</button>
+                  <button type="button" className={editProfileStyles.deleteButton}>Видалити резюме</button>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <h2>Зараз в вас немає резюме</h2>
+                <div className={editProfileStyles.buttonDiv}>
+                  <button type="button" className={editProfileStyles.resumeFactoryButton}>
+                    Створити резюме
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

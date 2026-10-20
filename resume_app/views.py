@@ -10,6 +10,7 @@ class ResumeRender(APIView):
         output = [
             {
                 "owner": f"{output.owner.first_name} {output.owner.last_name}",
+                "owner_id": output.owner.id,
                 "experience": output.experience,
                 "desired_position_1": output.desired_position_1,
                 "desired_position_2": output.desired_position_2,
