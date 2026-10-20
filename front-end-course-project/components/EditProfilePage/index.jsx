@@ -21,20 +21,17 @@ class EditProfilePage extends React.Component {
         console.log(error)
       })
 
-      axios.get("http://127.0.0.1:8000/resume/")
-      .then(responce => {
-        const allResumes = responce.data;
-        
-        
-        const userResume = allResumes.find(resume => resume.owner_id === 0);
-
-        this.setState({
-          resume: userResume || null
-        });
-      })
-      .catch(error => {
-        console.error("Помилка:", error);
-      })
+    axios.get("http://127.0.0.1:8000/resume/")
+    .then(response => {
+      if (Array.isArray(response.data) && response.data.length > 0) {
+        this.setState({ resume: response.data[0] }); 
+      } else {
+        this.setState({ resume: null });
+      }
+    })
+    .catch(error => {
+      console.error("Ошибка:", error);
+    })
   }
 
   toggleEdit = (field) => {
@@ -44,12 +41,33 @@ class EditProfilePage extends React.Component {
   };
 
   handleInputChange = (e, field) => {
-    this.setState({
-      details: {
-        ...this.state.details,
-        [field]: e.target.value
-      }
-    });
+    const { value } = e.target;
+    const resumeFields = ['desired_p_1', 'desired_p_2', 'desired_p_3', 'salary_price', 'experience'];
+    
+    const fieldMap = {
+      'desired_p_1': 'desired_position_1',
+      'desired_p_2': 'desired_position_2',
+      'desired_p_3': 'desired_position_3',
+    };
+
+    const realFieldName = fieldMap[field] || field;
+
+    if (resumeFields.includes(field)) {
+      this.setState(prevState => ({
+        resume: {
+          ...prevState.resume,
+          [realFieldName]: value
+        }
+      }));
+    } 
+    else {
+      this.setState(prevState => ({
+        details: {
+          ...prevState.details,
+          [realFieldName]: value
+        }
+      }));
+    }
   };
 
   handleSaveChanges = () => {
@@ -72,6 +90,28 @@ class EditProfilePage extends React.Component {
       .catch(error => {
         console.error("Oшибкa:", error);
       });
+  };
+
+  handleSaveChangesResume = () => {
+  const { resume } = this.state;
+  
+  if (!resume) {
+    return;
+  }
+
+  const resumeId = resume.id; 
+  const dataToSend = { ...resume };
+
+  axios.patch("http://127.0.0.1:8000/resume/", dataToSend)
+    .then(response => {
+      this.setState({ 
+        activeField: null,
+        resume: response.data
+      });
+    })
+    .catch(error => {
+      console.error("Ошибка:", error.response ? error.response.data : error.message);
+    });
   };
 
   render() {
@@ -229,11 +269,18 @@ class EditProfilePage extends React.Component {
                 <h1>Розглядаю посади:</h1>
                 <div className={editProfileStyles.desiredPositionDiv}>
                   <div className={editProfileStyles.desiredPositionDivButton}>
-                    {resume.desired_position_1 ? (
+                  {activeField === 'desired_p_1' ? (
+                    <input 
+                      type="text" 
+                      value={resume.desired_position_1 || ""} 
+                      onChange={(e) => this.handleInputChange(e, 'desired_p_1')}
+                      className={editProfileStyles.editInput}
+                    />
+                    ) : resume.desired_position_1 ? (
                       <h3>{resume.desired_position_1}</h3>
-                    ): (
+                    ) : (
                       <h3>Вкажіть назву посади</h3>
-                    )}
+                  )}
                     <button type="button" 
                     className={`${editProfileStyles.editInfoButton} ${activeField === 'desired_p_1' ? editProfileStyles.activeButton : ''}`}
                     onClick={() => this.toggleEdit('desired_p_1')}>{activeField === 'desired_p_1' ? 'Зберегти' : 'Редагувати'}</button>
@@ -241,7 +288,14 @@ class EditProfilePage extends React.Component {
                   
 
                   <div className={editProfileStyles.desiredPositionDivButton}>
-                    {resume.desired_position_2 ? (
+                    {activeField === 'desired_p_2' ? (
+                    <input 
+                      type="text" 
+                      value={resume.desired_position_2 || ""} 
+                      onChange={(e) => this.handleInputChange(e, 'desired_p_2')}
+                      className={editProfileStyles.editInput}
+                    />
+                    ) : resume.desired_position_2 ? (
                       <h3>{resume.desired_position_2}</h3>
                     ): (
                       <h3>Вкажіть назву посади</h3>
@@ -252,7 +306,14 @@ class EditProfilePage extends React.Component {
                   </div>
 
                   <div className={editProfileStyles.desiredPositionDivButton}>
-                    {resume.desired_position_3 ? (
+                    {activeField === 'desired_p_3' ? (
+                    <input 
+                      type="text" 
+                      value={resume.desired_position_3 || ""} 
+                      onChange={(e) => this.handleInputChange(e, 'desired_p_3')}
+                      className={editProfileStyles.editInput}
+                    />
+                    ) : resume.desired_position_3 ? (
                       <h3>{resume.desired_position_3}</h3>
                     ): (
                       <h3>Вкажіть назву посади</h3>
@@ -263,7 +324,17 @@ class EditProfilePage extends React.Component {
                   </div>
                   
                   <div className={editProfileStyles.desiredPositionDivButton}>
-                    <h3>Бажана зарплата: {resume.salary_price || "Не вказано"}</h3>
+                    {activeField === 'salary_price' ? (
+                    <input 
+                      type="text" 
+                      value={resume.salary_price || ""} 
+                      onChange={(e) => this.handleInputChange(e, 'salary_price')}
+                      className={editProfileStyles.editInput}
+                    />
+                    ) : (
+                      <h3>Бажана зарплата: {resume.salary_price || "Не вказано"}</h3>
+                    )}
+                    
                     <button type="button" 
                     className={`${editProfileStyles.editInfoButton} ${activeField === 'salary_price' ? editProfileStyles.activeButton : ''}`}
                     onClick={() => this.toggleEdit('salary_price')}>{activeField === 'salary_price' ? 'Зберегти' : 'Редагувати'}</button>
@@ -271,7 +342,16 @@ class EditProfilePage extends React.Component {
                 </div>
                 
                 <h1>Досвід роботи:</h1>
-                <h4>{resume.experience || "Не вказано"}</h4>
+                {activeField === 'experience' ? (
+                  <input 
+                    type="text" 
+                    value={resume.experience || ""} 
+                    onChange={(e) => this.handleInputChange(e, 'experience')}
+                    className={editProfileStyles.editInput}
+                  />
+                  ) : (
+                    <h4>{resume.experience || "Не вказано"}</h4>
+                )}
                 <div className={editProfileStyles.buttonDiv}>
                   <button type="button" 
                     className={`${editProfileStyles.editInfoButton} ${activeField === 'experience' ? editProfileStyles.activeButton : ''}`}
@@ -279,7 +359,10 @@ class EditProfilePage extends React.Component {
                 </div>
                 
                 <div className={editProfileStyles.saveDeleteButtonDiv}>
-                  <button type="button" className={editProfileStyles.saveEditedButton}>Зберегти зміни резюме</button>
+                  <button type="button" 
+                  className={editProfileStyles.saveEditedButton}
+                  onClick={this.handleSaveChangesResume} 
+                  >Зберегти зміни резюме</button>
                   <button type="button" className={editProfileStyles.deleteButton}>Видалити резюме</button>
                 </div>
               </div>
