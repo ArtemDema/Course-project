@@ -17,9 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from company_app.views import CompanyRender
-from auth_app.views import UserListView, UserDetailView, CurrentUserView
+from auth_app.views import UserListView, UserDetailView, CurrentUserView, RegisterUserView
 from vacancy_app.views import VacancyRender
 from resume_app.views import ResumeRender
+from django.urls import path
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +32,7 @@ urlpatterns = [
     path('user/<int:id>/', UserDetailView.as_view()),
     path("resume/", ResumeRender.as_view()),
     path("vacancy/", VacancyRender.as_view()),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path("register/", RegisterUserView.as_view()),
 ]

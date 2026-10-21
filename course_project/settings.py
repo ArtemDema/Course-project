@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'vacancy_app',
     'resume_app',
     'rest_framework',
+    "rest_framework_simplejwt",
     'corsheaders',
     'phonenumber_field',
 ]
@@ -63,6 +64,9 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.AllowAny",
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
 

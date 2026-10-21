@@ -1,23 +1,20 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import FormikRegisterStyles from "./FormikRegistration.module.css"
+import FormikRegisterStyles from "./FormikRegistration.module.css";
 
-const RegisterForm = ({setScreen}) => {
+const RegisterForm = ({ setScreen, registrationData, setRegistrationData }) => {
   return (
-    <Formik initialValues={{ text: ''}}
-      onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
-        const response = await fetch('http://127.0.0.1:8000/register/', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(values),
-        });
-        console.log('Отправил:', values);
-        resetForm();
-        }
-    }>
-      {
-      () => (
+    <Formik
+      initialValues={{
+        email: registrationData.email,
+        password: registrationData.password,
+        password_confirm: registrationData.password_confirm,
+      }}
+      onSubmit={(values) => {
+        setRegistrationData((prev) => ({ ...prev, ...values }));
+        setScreen('register-2');
+      }}
+    >
+      {() => (
         <Form className={FormikRegisterStyles.form}>
           <div className={FormikRegisterStyles.authDiv}>
             <div className={FormikRegisterStyles.authFormDiv}>
@@ -28,11 +25,13 @@ const RegisterForm = ({setScreen}) => {
 
               <div className={FormikRegisterStyles.registerFormInputDiv}>
                 <h3>Ваша пошта</h3>
-                <input type="text" />
+                <Field type="email" name="email" placeholder="example@mail.com" required />
+                
                 <h3>Ваш пароль</h3>
-                <input type="text" />
+                <Field type="password" name="password" required />
+                
                 <h3>Повторіть пароль</h3>
-                <input type="text" />
+                <Field type="password" name="password_confirm" required />
               </div>
 
               <div className={FormikRegisterStyles.authFormConfirmDiv}>
@@ -40,7 +39,7 @@ const RegisterForm = ({setScreen}) => {
                 <button type="button" className={FormikRegisterStyles.backButton} onClick={() => setScreen('login')}>
                   перейти до авторизації
                 </button>
-                <button onClick={() => setScreen('register-2')}>Підтвердити</button>
+                <button type="submit">Підтвердити</button> 
               </div>
             </div>
           </div>

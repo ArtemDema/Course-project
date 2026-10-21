@@ -2,6 +2,7 @@ import editProfileStyles from "./EditProfilePage.module.css"
 import Header from "../Header"
 import React from 'react'
 import axios from 'axios'
+import api from '../Api';
 
 class EditProfilePage extends React.Component {
   state = {
@@ -11,17 +12,17 @@ class EditProfilePage extends React.Component {
   }
 
   componentDidMount() {
-    axios.get("http://127.0.0.1:8000/user/me/") //----------------------
+    api.get('user/me/') 
       .then(responce => {
         this.setState({
           details: responce.data
-        })
+        });
       })
       .catch(error => {
-        console.log(error)
-      })
-
-    axios.get("http://127.0.0.1:8000/resume/")
+        console.log("Ошибка получения профиля:", error);
+      });
+    
+    api.get('user/me/') 
     .then(response => {
       if (Array.isArray(response.data) && response.data.length > 0) {
         this.setState({ resume: response.data[0] }); 
@@ -80,7 +81,7 @@ class EditProfilePage extends React.Component {
     delete dataToSend.date_joined;
     delete dataToSend.id;
 
-    axios.patch("http://127.0.0.1:8000/user/me/", dataToSend)
+    api.patch("user/me/", dataToSend)
       .then(responce => {
         this.setState({ 
           activeField: null,
@@ -102,7 +103,7 @@ class EditProfilePage extends React.Component {
   const resumeId = resume.id; 
   const dataToSend = { ...resume };
 
-  axios.patch("http://127.0.0.1:8000/resume/", dataToSend)
+  api.patch("resume/", dataToSend)
     .then(response => {
       this.setState({ 
         activeField: null,
