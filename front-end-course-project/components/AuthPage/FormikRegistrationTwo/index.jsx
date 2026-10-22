@@ -15,7 +15,7 @@ const RegisterFormTwo = ({ setScreen, registrationData, setRegistrationData }) =
 
         try {
           const response = await api.post('register/', fullRegistrationData);
-          setScreen('confirm');
+          setScreen('login');
         } finally {
           setSubmitting(false);
         }

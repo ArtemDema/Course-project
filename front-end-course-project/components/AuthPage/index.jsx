@@ -3,10 +3,9 @@ import { useState } from 'react';
 import AuthForm from "./FormikAuth";
 import RegisterForm from "./FormikRegistration";
 import RegisterFormTwo from "./FormikRegistrationTwo";
-import ConfirmForm from "./FormikComfirm";
 
 function AuthPage() {
-  // 'login', 'register-1', 'register-2', 'confirm'
+  // 'login', 'register-1', 'register-2'
   const [currentScreen, setCurrentScreen] = useState('login');
 
   const [registrationData, setRegistrationData] = useState({
@@ -47,11 +46,6 @@ function AuthPage() {
             registrationData={registrationData}
             setRegistrationData={setRegistrationData}
           />
-        )}
-
-        {/* Подтверждение почты */}
-        {currentScreen === 'confirm' && (
-          <ConfirmForm setScreen={setCurrentScreen} />
         )}
 
       </div>

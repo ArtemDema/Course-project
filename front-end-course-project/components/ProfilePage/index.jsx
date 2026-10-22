@@ -5,7 +5,10 @@ import axios from 'axios'
 import api from '../Api';
 
 class ProfilePage extends React.Component{
-  state = {details: null, }
+  state = {
+    details: null,
+    resume: null
+   }
 
   componentDidMount() {
     api.get('user/me/') 
@@ -17,9 +20,21 @@ class ProfilePage extends React.Component{
       .catch(error => {
         console.log("Ошибка получения профиля:", error);
       });
+
+    api.get('resume/') 
+      .then(response => {
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          this.setState({ resume: response.data[0] }); 
+        } else {
+          this.setState({ resume: null });
+        }
+      })
+      .catch(error => {
+        console.error("Ошибка:", error);
+    })
   }
   render(){
-    const { details } = this.state;
+    const { details, resume } = this.state;
     return(
     <div className={profileStyles.mainDivProfilePage}>
       <Header typeOfScreen={"profile"} />
@@ -42,6 +57,32 @@ class ProfilePage extends React.Component{
             <h1>Про мене</h1>
 
             <h4>{details.about_me}</h4>
+
+            {resume ? (
+              <div className={profileStyles.exampleResume}>
+                <div className={profileStyles.nameDiv}>
+                  <div className={profileStyles.textFactoryName}>
+                    
+                    {resume.first_name}
+                  </div>
+                  <div className={profileStyles.exampleFactoryPhoto}></div>
+                </div>
+
+                <div className={profileStyles.infoDiv}>
+                  <div className={profileStyles.textFactory}>
+                    Бажані посади: {resume.desired_position_1}
+                  </div>
+                  {resume.type_of_resume && <div className={profileStyles.textFactory}>Галузь: {resume.type_of_resume}</div>}
+                  
+                  <div className={profileStyles.textFactory}>Досвід роботи: {resume.experience || "Без досвіду"}</div>
+                  <div className={profileStyles.textFactory}>Заробітна плата: {resume.salary_price || "Не вказано"} грн.</div>
+                </div>
+
+                <button type="button" className={profileStyles.textFactoryButton}>Показати більше</button>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
         )}

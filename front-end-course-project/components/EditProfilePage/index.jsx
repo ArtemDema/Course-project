@@ -22,7 +22,7 @@ class EditProfilePage extends React.Component {
         console.log("Ошибка получения профиля:", error);
       });
     
-    api.get('user/me/') 
+    api.get('resume/') 
     .then(response => {
       if (Array.isArray(response.data) && response.data.length > 0) {
         this.setState({ resume: response.data[0] }); 
