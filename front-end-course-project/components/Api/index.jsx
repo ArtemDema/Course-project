@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+export const publicApi = axios.create({
+  baseURL: 'http://127.0.0.1:8000/',
+});
+
 const api = axios.create({
   baseURL: 'http://127.0.0.1:8000/',
 });
@@ -17,7 +21,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
-      if (originalRequest.url.includes('token/')) {
+      if (originalRequest.url.includes('token/') || originalRequest.url.includes('register/')) {
         return Promise.reject(error);
       }
       originalRequest._retry = true;

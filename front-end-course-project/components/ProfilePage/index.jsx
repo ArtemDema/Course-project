@@ -7,7 +7,7 @@ import api from '../Api';
 class ProfilePage extends React.Component{
   state = {
     details: null,
-    resume: null
+    resume: []
    }
 
   componentDidMount() {
@@ -23,10 +23,12 @@ class ProfilePage extends React.Component{
 
     api.get('resume/') 
       .then(response => {
+        console.log(response.data);
+        
         if (Array.isArray(response.data) && response.data.length > 0) {
-          this.setState({ resume: response.data[0] }); 
+          this.setState({ resume: Array.isArray(response.data) ? response.data : [] }); 
         } else {
-          this.setState({ resume: null });
+          this.setState({ resume: [] });
         }
       })
       .catch(error => {
@@ -35,6 +37,10 @@ class ProfilePage extends React.Component{
   }
   render(){
     const { details, resume } = this.state;
+
+    const myResume = details && resume.length > 0
+      ? resume.find(r => r.owner_id === details.id || r.user === details.id || r.user_id === details.id) : null;
+
     return(
     <div className={profileStyles.mainDivProfilePage}>
       <Header typeOfScreen={"profile"} />
@@ -49,7 +55,6 @@ class ProfilePage extends React.Component{
                 <h3 className={profileStyles.textInfo}>Місто: {details.city}</h3>
                 <h3 className={profileStyles.textInfo}>Освіта: {details.education}</h3>
                 <h3 className={profileStyles.textInfo}>Пошта: {details.email}</h3>
-                <h3 className={profileStyles.textInfo}>Навички: Не вказано</h3>
             </div>
           </div>
 
@@ -58,7 +63,7 @@ class ProfilePage extends React.Component{
 
             <h4>{details.about_me}</h4>
 
-            {resume ? (
+            {myResume ? (
               <div className={profileStyles.exampleResume}>
                 <div className={profileStyles.nameDiv}>
                   <div className={profileStyles.textFactoryName}>

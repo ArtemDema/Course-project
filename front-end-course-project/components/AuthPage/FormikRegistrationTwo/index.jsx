@@ -1,6 +1,7 @@
 import { Formik, Form, Field } from 'formik';
-import api from '../../Api';
+import { publicApi } from '../../Api'; 
 import FormikRegisterTwoStyles from "./FormikRegistrationTwo.module.css";
+
 
 const RegisterFormTwo = ({ setScreen, registrationData, setRegistrationData }) => {
   return (
@@ -14,8 +15,10 @@ const RegisterFormTwo = ({ setScreen, registrationData, setRegistrationData }) =
         const fullRegistrationData = { ...registrationData, ...values };
 
         try {
-          const response = await api.post('register/', fullRegistrationData);
+          const response = await publicApi.post('register/', fullRegistrationData);
           setScreen('login');
+        } catch (err) {
+          console.error("Ошибка регистрации:", err.response?.data);
         } finally {
           setSubmitting(false);
         }

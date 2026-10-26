@@ -8,7 +8,7 @@ class EditProfilePage extends React.Component {
   state = {
     details: null,
     activeField: null,
-    resume: null
+    resume: []
   }
 
   componentDidMount() {
@@ -25,9 +25,9 @@ class EditProfilePage extends React.Component {
     api.get('resume/') 
     .then(response => {
       if (Array.isArray(response.data) && response.data.length > 0) {
-        this.setState({ resume: response.data[0] }); 
+        this.setState({ resume: Array.isArray(response.data) ? response.data : [] }); 
       } else {
-        this.setState({ resume: null });
+        this.setState({ resume: [] });
       }
     })
     .catch(error => {
@@ -117,6 +117,10 @@ class EditProfilePage extends React.Component {
 
   render() {
     const { details, activeField, resume } = this.state;
+
+    const myResume = details && resume.length > 0
+      ? resume.find(r => r.owner_id === details.id || r.user === details.id || r.user_id === details.id) : null;
+
     return (
       <div className={editProfileStyles.mainDivEditProfilePage}>
         <Header typeOfScreen={"settings"} />
@@ -265,7 +269,7 @@ class EditProfilePage extends React.Component {
         
           <div className={editProfileStyles.rightSide}>
             <h1>Редагування резюме</h1>
-            {resume ? (
+            {myResume ? (
               <div className={editProfileStyles.editResume}>
                 <h1>Розглядаю посади:</h1>
                 <div className={editProfileStyles.desiredPositionDiv}>
@@ -273,12 +277,12 @@ class EditProfilePage extends React.Component {
                   {activeField === 'desired_p_1' ? (
                     <input 
                       type="text" 
-                      value={resume.desired_position_1 || ""} 
+                      value={myResume.desired_position_1 || ""} 
                       onChange={(e) => this.handleInputChange(e, 'desired_p_1')}
                       className={editProfileStyles.editInput}
                     />
-                    ) : resume.desired_position_1 ? (
-                      <h3>{resume.desired_position_1}</h3>
+                    ) : myResume.desired_position_1 ? (
+                      <h3>{myResume.desired_position_1}</h3>
                     ) : (
                       <h3>Вкажіть назву посади</h3>
                   )}
@@ -292,12 +296,12 @@ class EditProfilePage extends React.Component {
                     {activeField === 'desired_p_2' ? (
                     <input 
                       type="text" 
-                      value={resume.desired_position_2 || ""} 
+                      value={myResume.desired_position_2 || ""} 
                       onChange={(e) => this.handleInputChange(e, 'desired_p_2')}
                       className={editProfileStyles.editInput}
                     />
-                    ) : resume.desired_position_2 ? (
-                      <h3>{resume.desired_position_2}</h3>
+                    ) : myResume.desired_position_2 ? (
+                      <h3>{myResume.desired_position_2}</h3>
                     ): (
                       <h3>Вкажіть назву посади</h3>
                     )}
@@ -310,12 +314,12 @@ class EditProfilePage extends React.Component {
                     {activeField === 'desired_p_3' ? (
                     <input 
                       type="text" 
-                      value={resume.desired_position_3 || ""} 
+                      value={myResume.desired_position_3 || ""} 
                       onChange={(e) => this.handleInputChange(e, 'desired_p_3')}
                       className={editProfileStyles.editInput}
                     />
-                    ) : resume.desired_position_3 ? (
-                      <h3>{resume.desired_position_3}</h3>
+                    ) : myResume.desired_position_3 ? (
+                      <h3>{myResume.desired_position_3}</h3>
                     ): (
                       <h3>Вкажіть назву посади</h3>
                     )}
@@ -328,12 +332,12 @@ class EditProfilePage extends React.Component {
                     {activeField === 'salary_price' ? (
                     <input 
                       type="text" 
-                      value={resume.salary_price || ""} 
+                      value={myResume.salary_price || ""} 
                       onChange={(e) => this.handleInputChange(e, 'salary_price')}
                       className={editProfileStyles.editInput}
                     />
                     ) : (
-                      <h3>Бажана зарплата: {resume.salary_price || "Не вказано"}</h3>
+                      <h3>Бажана зарплата: {myResume.salary_price || "Не вказано"}</h3>
                     )}
                     
                     <button type="button" 
@@ -346,12 +350,12 @@ class EditProfilePage extends React.Component {
                 {activeField === 'experience' ? (
                   <input 
                     type="text" 
-                    value={resume.experience || ""} 
+                    value={myResume.experience || ""} 
                     onChange={(e) => this.handleInputChange(e, 'experience')}
                     className={editProfileStyles.editInput}
                   />
                   ) : (
-                    <h4>{resume.experience || "Не вказано"}</h4>
+                    <h4>{myResume.experience || "Не вказано"}</h4>
                 )}
                 <div className={editProfileStyles.buttonDiv}>
                   <button type="button" 
