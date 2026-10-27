@@ -7,12 +7,8 @@ import api from '../Api';
 class ProfilePage extends React.Component{
   state = {
     details: null,
-<<<<<<< HEAD
-    resume: []
-=======
     resume: [],
     imagePreview: null
->>>>>>> 296f2e6 (avatar photo implemented)
    }
 
   componentDidMount() {
@@ -41,20 +37,12 @@ class ProfilePage extends React.Component{
     })
   }
   render(){
-<<<<<<< HEAD
-    const { details, resume } = this.state;
-
-    const myResume = details && resume.length > 0
-      ? resume.find(r => r.owner_id === details.id || r.user === details.id || r.user_id === details.id) : null;
-
-=======
     const { details, resume, imagePreview } = this.state;
 
     const currentAvatarSrc = imagePreview || (details && details.avatar);
 
     const myResume = details && resume.length > 0
       ? resume.find(r => r.owner_id === details.id || r.user === details.id || r.user_id === details.id) : null;
->>>>>>> 296f2e6 (avatar photo implemented)
     return(
     <div className={profileStyles.mainDivProfilePage}>
       <Header typeOfScreen={"profile"} />
