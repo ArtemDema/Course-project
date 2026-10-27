@@ -8,8 +8,16 @@ class EditProfilePage extends React.Component {
   state = {
     details: null,
     activeField: null,
+<<<<<<< HEAD
     resume: []
+=======
+    resume: [],
+    selectedFile: null,
+    imagePreview: null
+>>>>>>> 296f2e6 (avatar photo implemented)
   }
+
+  fileInputRef = React.createRef();
 
   componentDidMount() {
     api.get('user/me/') 
@@ -71,21 +79,49 @@ class EditProfilePage extends React.Component {
     }
   };
 
+  handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      this.setState({
+        selectedFile: file,
+        imagePreview: URL.createObjectURL(file)
+      });
+    }
+  };
+
+  triggerFileSelect = () => {
+    if (this.fileInputRef.current) {
+      this.fileInputRef.current.click();
+    }
+  };
+
   handleSaveChanges = () => {
-    const { details } = this.state;
+    const { details, selectedFile } = this.state;
     
     if (!details) return;
 
-    const dataToSend = { ...details };
+    const formData = new FormData();
     
-    delete dataToSend.date_joined;
-    delete dataToSend.id;
+    Object.keys(details).forEach(key => {
+      if (key !== 'date_joined' && key !== 'id' && key !== 'avatar') { 
+        formData.append(key, details[key] || '');
+      }
+    });
 
-    api.patch("user/me/", dataToSend)
+    if (selectedFile) {
+      formData.append('avatar_upload', selectedFile); 
+    }
+
+    api.patch("user/me/", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
       .then(responce => {
         this.setState({ 
           activeField: null,
-          details: responce.data
+          details: responce.data,
+          selectedFile: null
         });
       })
       .catch(error => {
@@ -116,7 +152,13 @@ class EditProfilePage extends React.Component {
   };
 
   render() {
+<<<<<<< HEAD
     const { details, activeField, resume } = this.state;
+=======
+    const { details, activeField, resume, imagePreview } = this.state;
+
+    const currentAvatarSrc = imagePreview || (details && details.avatar);
+>>>>>>> 296f2e6 (avatar photo implemented)
 
     const myResume = details && resume.length > 0
       ? resume.find(r => r.owner_id === details.id || r.user === details.id || r.user_id === details.id) : null;
@@ -128,9 +170,21 @@ class EditProfilePage extends React.Component {
         <div className={editProfileStyles.contentDivEditProfilePage}>
           {details && (
             <div className={editProfileStyles.leftSide}>
-              <div className={editProfileStyles.avatar}></div>
+              <div className={editProfileStyles.avatar}>
+                {currentAvatarSrc && (
+                  <img src={currentAvatarSrc} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} 
+                  />
+                )}
+              </div>
 
-              <button type="button" className={editProfileStyles.editProfilePhoto}>Редагувати фото профіля</button>
+              <input type="file" ref={this.fileInputRef} style={{ display: 'none' }} accept="image/*"
+                onChange={this.handleFileChange}
+              />
+
+              <button type="button" className={editProfileStyles.editProfilePhoto}
+                onClick={this.triggerFileSelect}>
+                Редагувати фото профіля
+              </button>
 
               <div className={editProfileStyles.profileInfo}>
                 

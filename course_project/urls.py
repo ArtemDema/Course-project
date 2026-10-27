@@ -20,7 +20,8 @@ from company_app.views import CompanyRender
 from auth_app.views import UserListView, UserDetailView, CurrentUserView, RegisterUserView
 from vacancy_app.views import VacancyRender
 from resume_app.views import ResumeRender
-from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 
@@ -35,4 +36,4 @@ urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path("register/", RegisterUserView.as_view()),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

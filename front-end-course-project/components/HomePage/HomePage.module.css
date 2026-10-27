@@ -154,6 +154,9 @@
 .textFactory{
   font-family: 'JetBrains-Medium';
   font-size: 22px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .textFactoryButton{

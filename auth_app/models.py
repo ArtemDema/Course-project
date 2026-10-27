@@ -18,5 +18,4 @@ class WorkerUser(AbstractUser):
 
 class PhotoProfile(models.Model):
     profile = models.OneToOneField(WorkerUser, on_delete=models.CASCADE)
-    original = models.ImageField()
-    compressed = models.ImageField()
+    original = models.ImageField(upload_to='avatars/', null=True, blank=True)

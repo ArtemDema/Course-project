@@ -8,20 +8,30 @@ from .serializer import *
 # Create your views here.
 class ResumeRender(APIView):
     def get(self, request):
-        output = [
-            {
-                "id": output.id,
-                "owner": f"{output.owner.first_name} {output.owner.last_name}",
-                "owner_id": output.owner.id,
-                "experience": output.experience,
-                "desired_position_1": output.desired_position_1,
-                "desired_position_2": output.desired_position_2,
-                "desired_position_3": output.desired_position_3,
-                "type_of_resume": output.type_of_resume,
-                "salary_price": output.salary_price,
-            } for output in Resume.objects.all()
-        ]
-        return Response(output)
+        output = []
+        
+        resumes = Resume.objects.select_related('owner', 'owner__photoprofile').all()
+        
+        for resume in resumes:
+            has_photo = hasattr(resume.owner, 'photoprofile')
+            if has_photo and resume.owner.photoprofile.original:
+                avatar_url = (resume.owner.photoprofile.original.url)
+            else:
+                avatar_url = None
+            
+            output.append({
+                "id": resume.id,
+                "owner": f"{resume.owner.first_name} {resume.owner.last_name}",
+                "owner_id": resume.owner.id,
+                "experience": resume.experience,
+                "desired_position_1": resume.desired_position_1,
+                "desired_position_2": resume.desired_position_2,
+                "desired_position_3": resume.desired_position_3,
+                "type_of_resume": resume.type_of_resume,
+                "salary_price": resume.salary_price,
+                "avatar": avatar_url 
+            }) 
+            return Response(output)
 
     def post(self, request):
         serializer = ResumeRender(data = request.data)

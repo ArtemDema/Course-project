@@ -12,19 +12,19 @@ from rest_framework import status
 
 # Create your views here.
 class CurrentUserView(APIView):
-    permission_classes = [IsAuthenticated]
+  permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        serializer = UserSerializer(request.user)
-        return Response(serializer.data)
+  def get(self, request):
+    serializer = UserSerializer(request.user, context={'request': request})
+    return Response(serializer.data)
     
-    def patch(self, request):
-        user = request.user
-        serializer = UserSerializer(user, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  def patch(self, request):
+    user = request.user
+    serializer = UserSerializer(user, data=request.data, partial=True, context={'request': request})
+    if serializer.is_valid():
+      serializer.save()
+      return Response(UserSerializer(user, context={'request': request}).data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserListView(ListCreateAPIView):
     queryset = WorkerUser.objects.all()

@@ -7,7 +7,12 @@ import api from '../Api';
 class ProfilePage extends React.Component{
   state = {
     details: null,
+<<<<<<< HEAD
     resume: []
+=======
+    resume: [],
+    imagePreview: null
+>>>>>>> 296f2e6 (avatar photo implemented)
    }
 
   componentDidMount() {
@@ -36,18 +41,32 @@ class ProfilePage extends React.Component{
     })
   }
   render(){
+<<<<<<< HEAD
     const { details, resume } = this.state;
 
     const myResume = details && resume.length > 0
       ? resume.find(r => r.owner_id === details.id || r.user === details.id || r.user_id === details.id) : null;
 
+=======
+    const { details, resume, imagePreview } = this.state;
+
+    const currentAvatarSrc = imagePreview || (details && details.avatar);
+
+    const myResume = details && resume.length > 0
+      ? resume.find(r => r.owner_id === details.id || r.user === details.id || r.user_id === details.id) : null;
+>>>>>>> 296f2e6 (avatar photo implemented)
     return(
     <div className={profileStyles.mainDivProfilePage}>
       <Header typeOfScreen={"profile"} />
         {details && (
           <div className={profileStyles.contentDivProfilePage}>
           <div className={profileStyles.leftSide}>
-            <div className={profileStyles.avatar}></div>
+            <div className={profileStyles.avatar}>
+              {currentAvatarSrc && (
+                <img src={currentAvatarSrc}  style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} 
+                />
+              )}
+            </div>
               <h1>{details.first_name} {details.last_name}</h1>
 
               <div className={profileStyles.profileInfo}>
@@ -67,20 +86,24 @@ class ProfilePage extends React.Component{
               <div className={profileStyles.exampleResume}>
                 <div className={profileStyles.nameDiv}>
                   <div className={profileStyles.textFactoryName}>
-                    
-                    {resume.first_name}
+                    <h3>{myResume.owner}</h3>
                   </div>
-                  <div className={profileStyles.exampleFactoryPhoto}></div>
+                  <div className={profileStyles.exampleFactoryPhoto}>
+                    {currentAvatarSrc && (
+                      <img src={currentAvatarSrc}  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                      />
+                    )}
+                  </div>
                 </div>
 
                 <div className={profileStyles.infoDiv}>
                   <div className={profileStyles.textFactory}>
-                    Бажані посади: {resume.desired_position_1}
+                    Бажані посади: {myResume.desired_position_1}
                   </div>
-                  {resume.type_of_resume && <div className={profileStyles.textFactory}>Галузь: {resume.type_of_resume}</div>}
+                  {myResume.type_of_resume && <div className={profileStyles.textFactory}>Галузь: {myResume.type_of_resume}</div>}
                   
-                  <div className={profileStyles.textFactory}>Досвід роботи: {resume.experience || "Без досвіду"}</div>
-                  <div className={profileStyles.textFactory}>Заробітна плата: {resume.salary_price || "Не вказано"} грн.</div>
+                  <div className={profileStyles.textFactory}>Досвід роботи: {myResume.experience || "Без досвіду"}</div>
+                  <div className={profileStyles.textFactory}>Заробітна плата: {myResume.salary_price || "Не вказано"} грн.</div>
                 </div>
 
                 <button type="button" className={profileStyles.textFactoryButton}>Показати більше</button>

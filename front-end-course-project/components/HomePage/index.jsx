@@ -9,7 +9,7 @@ class HomePage extends React.Component {
     resumes: [],
     currentType: 'vacancy',
     selectedFilters: [],
-    
+
 
     searchPosition: '',
     salaryMin: 'none',
@@ -143,9 +143,18 @@ class HomePage extends React.Component {
                 <div className={homeStyles.nameDiv}>
                   <div className={homeStyles.textFactoryName}>
                     
+                    
                     {currentType === 'vacancy' ? item.desired_position : item.owner}
                   </div>
-                  <div className={homeStyles.exampleFactoryPhoto}></div>
+                  <div className={homeStyles.exampleFactoryPhoto}>
+                    {item.avatar ? (
+                      <img 
+                        src={`http://127.0.0.1:8000${item.avatar}`} 
+                        alt="Avatar"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    ) : (<></>)}
+                  </div>
                 </div>
 
                 <div className={homeStyles.infoDiv}>
