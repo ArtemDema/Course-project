@@ -1,0 +1,233 @@
+.mainDivProfilePage{
+  width: 100%;
+  height: 100%;
+}
+
+.leftSide{
+  background-color: #D5EBFF;;
+  width: 100%;
+  height: 100%;
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 25px 15px;
+  box-sizing: border-box;
+}
+
+.avatar{
+  background-color: red;
+  border-radius: 1234px;
+  width: 135px;
+  height: 135px;
+}
+
+.profileInfo{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 500px;
+}
+
+.textInfo{
+  font-family: 'JetBrains-Regular';
+  font-size: 24px;
+}
+
+.toProfileButton{
+  width: 100%;
+  height: 100%;
+  max-width: 230px;
+  max-height: 50px;
+  border: none;
+  border-radius: 12px;
+  background-color: #C3C5C4;
+  font-family: 'JetBrains-Bold';
+  font-size: 20px;
+}
+
+.contentDivProfilePage{
+  width: 100%;
+  height: calc(100% - 75px);
+}
+
+.rightSide{
+  background-color: #FFFFFF;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.contentDivProfilePage{
+  display: flex;
+  flex-direction: row;
+}
+
+.exampleFactory{
+  width: 100%;
+  height: 100%;
+  max-width: 1240px;
+  max-height: 175px;
+  background-color: #FCF3F4;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 0 15px 0 0;
+  box-sizing: border-box;
+
+}
+
+.exampleFactoryPhoto{
+  width: 100%;
+  height: 100%;
+  max-width: 175px;
+  max-height: 175px;
+  background-color: gray;
+  border-radius: 6px 0 0 6px;
+}
+
+.textFactoryName{
+  font-family: 'JetBrains-Bold';
+  font-size: 26px;
+}
+
+.textFactory{
+  font-family: 'JetBrains-Medium';
+  font-size: 22px;
+}
+
+.textFactoryButton{
+  width: 100%;
+  height: 100%;
+  max-width: 215px;
+  max-height: 50px;
+  color: white;
+  font-size: 20px;
+  border: none;
+  border-radius: 15px;
+  background-color: #5D506B;
+}
+
+.infoFactoryTextDiv{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  max-width: 520px;
+  justify-content: center;
+}
+
+.backDiv{
+  width: 100%;
+  height: 100%;
+  max-height: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains-Medium';
+}
+
+.backImageDiv{
+  width: 50px;
+  height: 20px;
+  background-color: black;
+}
+
+.buttonDiv{
+  display: flex;
+  flex-direction: row;
+  width: 44%;
+  height: 100%;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.rightSide h4{
+  font-family: 'JetBrains-Medium';
+  font-size: 18px;
+  width: 90%;
+  text-align: center;
+}
+
+.exampleResume{
+  width: 100%;
+  height: 100%;
+  max-width: 1150px;
+  max-height: 420px;
+  background-color: #CDFFF3;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.nameDiv{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 15px;
+  align-items: center;
+  box-sizing: border-box;
+  height: 100%;
+  max-height: 120px;
+}
+
+.textFactoryName{
+  font-family: 'JetBrains-Bold';
+  font-size: 26px;
+}
+
+.exampleFactoryPhoto{
+  width: 100%;
+  height: 100%;
+  max-width: 120px;
+  max-height: 120px;
+  background-color: gray;
+}
+
+.infoDiv{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  justify-content: flex-start;
+}
+
+.textFactory{
+  font-family: 'JetBrains-Medium';
+  font-size: 22px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.textFactoryButton{
+  width: 100%;
+  height: 100%;
+  max-width: 215px;
+  max-height: 50px;
+  color: white;
+  font-size: 20px;
+  border: none;
+  border-radius: 15px;
+  background-color: #5D506B;
+}

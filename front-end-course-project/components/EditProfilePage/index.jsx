@@ -8,13 +8,9 @@ class EditProfilePage extends React.Component {
   state = {
     details: null,
     activeField: null,
-<<<<<<< HEAD
-    resume: []
-=======
     resume: [],
     selectedFile: null,
     imagePreview: null
->>>>>>> 296f2e6 (avatar photo implemented)
   }
 
   fileInputRef = React.createRef();
@@ -51,6 +47,7 @@ class EditProfilePage extends React.Component {
 
   handleInputChange = (e, field) => {
     const { value } = e.target;
+    const { details } = this.state;
     const resumeFields = ['desired_p_1', 'desired_p_2', 'desired_p_3', 'salary_price', 'experience'];
     
     const fieldMap = {
@@ -62,12 +59,20 @@ class EditProfilePage extends React.Component {
     const realFieldName = fieldMap[field] || field;
 
     if (resumeFields.includes(field)) {
-      this.setState(prevState => ({
-        resume: {
-          ...prevState.resume,
+      this.setState(prevState => {
+        const resumeIndex = prevState.resume.findIndex(r => 
+          r.owner_id === details?.id || r.user === details?.id || r.user_id === details?.id
+        );
+
+        const updatedResumeList = [...prevState.resume];
+
+        updatedResumeList[resumeIndex] = {
+          ...updatedResumeList[resumeIndex],
           [realFieldName]: value
-        }
-      }));
+        };
+
+        return { resume: updatedResumeList };
+      });
     } 
     else {
       this.setState(prevState => ({
@@ -130,20 +135,22 @@ class EditProfilePage extends React.Component {
   };
 
   handleSaveChangesResume = () => {
-  const { resume } = this.state;
-  
-  if (!resume) {
-    return;
-  }
+    const { details, resume } = this.state;
+    
+    const myResume = details && resume.length > 0
+      ? resume.find(r => r.owner_id === details.id || r.user === details.id || r.user_id === details.id) 
+      : null;
 
-  const resumeId = resume.id; 
-  const dataToSend = { ...resume };
+    const resumeId = myResume.id; 
+    const dataToSend = { ...myResume };
+    
 
-  api.patch("resume/", dataToSend)
+    api.patch("resume/", dataToSend)
     .then(response => {
+      const updatedResumeList = prevState.resume.map(r => r.id === response.data.id ? response.data : r);
       this.setState({ 
         activeField: null,
-        resume: response.data
+        resume: updatedResumeList
       });
     })
     .catch(error => {
@@ -151,14 +158,52 @@ class EditProfilePage extends React.Component {
     });
   };
 
+  handleCreateResume = () => {
+  const { details } = this.state;
+
+  const initialData = {
+    owner: details.id,
+    desired_position_1: "Не вказано",
+    desired_position_2: "",
+    desired_position_3: "",
+    salary_price: 0,
+    experience: ""
+  };
+
+  api.post("resume/", initialData)
+    .then(response => {
+      this.setState(prevState => ({
+        resume: [...prevState.resume, response.data]
+      }));
+    })
+    .catch(error => {
+      console.error("Ошибка:", error.response ? error.response.data : error.message);
+    });
+  };
+
+  handleDeleteResume = () => {
+    const { details, resume } = this.state;
+
+    const myResume = details && resume.length > 0
+      ? resume.find(r => r.owner_id === details.id || r.user === details.id || r.user_id === details.id) 
+      : null;
+
+    api.delete("resume/", { params: { id: myResume.id } })
+      .then(() => {
+        this.setState(prevState => ({
+          activeField: null,
+          resume: prevState.resume.filter(r => r.id !== myResume.id)
+        }));
+      })
+      .catch(error => {
+        console.error("Ошибка:", error.response ? error.response.data : error.message);
+      });
+  };
+
   render() {
-<<<<<<< HEAD
-    const { details, activeField, resume } = this.state;
-=======
     const { details, activeField, resume, imagePreview } = this.state;
 
     const currentAvatarSrc = imagePreview || (details && details.avatar);
->>>>>>> 296f2e6 (avatar photo implemented)
 
     const myResume = details && resume.length > 0
       ? resume.find(r => r.owner_id === details.id || r.user === details.id || r.user_id === details.id) : null;
@@ -422,14 +467,18 @@ class EditProfilePage extends React.Component {
                   className={editProfileStyles.saveEditedButton}
                   onClick={this.handleSaveChangesResume} 
                   >Зберегти зміни резюме</button>
-                  <button type="button" className={editProfileStyles.deleteButton}>Видалити резюме</button>
+
+                  <button type="button" className={editProfileStyles.deleteButton}
+                  onClick={this.handleDeleteResume}
+                  >Видалити резюме</button>
                 </div>
               </div>
             ) : (
               <div>
                 <h2>Зараз в вас немає резюме</h2>
                 <div className={editProfileStyles.buttonDiv}>
-                  <button type="button" className={editProfileStyles.resumeFactoryButton}>
+                  <button type="button" className={editProfileStyles.resumeFactoryButton}
+                  onClick={this.handleCreateResume}>
                     Створити резюме
                   </button>
                 </div>

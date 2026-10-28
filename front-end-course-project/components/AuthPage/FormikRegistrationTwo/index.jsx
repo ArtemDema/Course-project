@@ -17,13 +17,8 @@ const RegisterFormTwo = ({ setScreen, registrationData, setRegistrationData }) =
         try {
           const response = await publicApi.post('register/', fullRegistrationData);
           setScreen('login');
-<<<<<<< HEAD
         } catch (err) {
-          console.error("Ошибка регистрации:", err.response?.data);
-=======
-        } catch (error) {
-          console.error("Ошибка:", error.response?.data);
->>>>>>> 296f2e6 (avatar photo implemented)
+          console.error("Ошибка:", err.response?.data);
         } finally {
           setSubmitting(false);
         }
