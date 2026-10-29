@@ -1,26 +1,13 @@
-.mainDivProfilePage{
+.mainDivResumePage{
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
 }
 
-.leftSide{
-  background-color: #D5EBFF;;
-  width: 100%;
-  height: 100%;
-  max-width: 650px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 25px 15px;
-  box-sizing: border-box;
-}
-
-.avatar{
-  background-color: red;
+.mainDivResumePage img{
   border-radius: 1234px;
-  width: 135px;
-  height: 135px;
+  width: 135px !important;
+  height: 135px !important;
+  border: 1px solid black;
 }
 
 .profileInfo{
@@ -49,15 +36,15 @@
   font-size: 20px;
 }
 
-.contentDivProfilePage{
+.contentDivResumePage{
   width: 100%;
-  height: calc(100% - 75px);
+  min-height: calc(100vh - 75px);
 }
 
-.rightSide{
+.rightSide {
   background-color: #FFFFFF;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,47 +52,12 @@
   padding: 15px;
   box-sizing: border-box;
   background-image: linear-gradient(-45deg, #0084FF, #FFFFFF);
+  flex-shrink: 0;
 }
 
 .contentDivProfilePage{
   display: flex;
   flex-direction: row;
-}
-
-.exampleFactory{
-  width: 100%;
-  height: 100%;
-  max-width: 1240px;
-  max-height: 175px;
-  background-color: #FCF3F4;
-  border-radius: 6px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  padding: 0 15px 0 0;
-  box-sizing: border-box;
-
-}
-
-.exampleFactoryPhoto{
-  width: 100%;
-  height: 100%;
-  max-width: 175px;
-  max-height: 175px;
-  background-color: gray;
-  border-radius: 6px 0 0 6px;
-}
-
-.exampleFactoryPhoto img{
-  width: 100%;
-  height: 100%;
-}
-
-.textFactoryName{
-  font-family: 'JetBrains-Bold';
-  font-size: 26px;
 }
 
 .textFactory{
@@ -123,6 +75,7 @@
   border: none;
   border-radius: 15px;
   background-color: #5D506B;
+  min-height: 50px;
 }
 
 .infoFactoryTextDiv{
@@ -170,9 +123,9 @@
 
 .exampleResume{
   width: 100%;
-  height: 100%;
+  height: auto;
   max-width: 750px;
-  max-height:fit-content;
+  min-height: max-content;
   background-color: #CDFFF3;
   border-radius: 6px;
   display: flex;
@@ -180,7 +133,7 @@
   justify-content: flex-start;
   align-items: center;
   gap: 20px;
-  padding: 10px 0px;
+  padding: 15px;
   box-sizing: border-box;
   box-shadow: 12px 4px 4px rgba(0, 0, 0, 0.25);
 }
@@ -190,7 +143,6 @@
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  padding: 0 15px;
   align-items: center;
   box-sizing: border-box;
   height: 100%;
@@ -208,9 +160,12 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  padding: 0 15px;
   box-sizing: border-box;
   justify-content: flex-start;
+}
+
+.infoDiv h1, .infoDiv h2, .infoDiv h3, .infoDiv h4, .infoDiv h5, .infoDiv h6, .infoDiv p{
+  font-family: 'JetBrains-Regular';
 }
 
 .textFactory{
@@ -221,14 +176,15 @@
   text-overflow: ellipsis;
 }
 
-.textFactoryButton{
+.backLastPageDiv{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
   width: 100%;
   height: 100%;
-  max-width: 215px;
-  max-height: 50px;
-  color: white;
-  font-size: 20px;
-  border: none;
-  border-radius: 15px;
-  background-color: #5D506B;
+  max-height: 20px;
+}
+
+.backLastPageDiv h4{
+  width: auto;
 }

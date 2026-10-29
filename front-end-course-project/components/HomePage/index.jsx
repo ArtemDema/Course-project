@@ -2,6 +2,7 @@ import homeStyles from "./HomePage.module.css"
 import Header from "../Header"
 import React from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 class HomePage extends React.Component {
   state = {
@@ -54,6 +55,10 @@ class HomePage extends React.Component {
         return { selectedFilters: [...selectedFilters, filterName] };
       }
     });
+  };
+
+  handleResumeView = (id) => {
+    window.location.href = `http://localhost:5173/resume/${id}`;
   };
 
   render() {
@@ -171,7 +176,8 @@ class HomePage extends React.Component {
                   <div className={homeStyles.textFactory}>Заробітна плата: {item.salary_price || "Не вказано"} грн.</div>
                 </div>
 
-                <button type="button" className={homeStyles.textFactoryButton}>Показати більше</button>
+                <button type="button" className={homeStyles.textFactoryButton}
+                onClick={() => this.handleResumeView(item.id)}>Показати більше</button>
               </div>
             ))}
 

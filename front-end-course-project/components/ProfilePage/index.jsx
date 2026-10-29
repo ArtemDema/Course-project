@@ -62,7 +62,7 @@ class ProfilePage extends React.Component{
                 <h3 className={profileStyles.textInfo}>Місто: {details.city}</h3>
                 <h3 className={profileStyles.textInfo}>Освіта: {details.education}</h3>
                 <h3 className={profileStyles.textInfo}>Пошта: {details.email}</h3>
-            </div>
+              </div>
           </div>
 
           <div className={profileStyles.rightSide}>
