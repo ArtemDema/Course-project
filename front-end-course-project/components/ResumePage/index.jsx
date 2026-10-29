@@ -30,6 +30,11 @@ class ResumePage extends React.Component{
 
             <div className={resumeStyles.rightSide}>
                 <div className={resumeStyles.exampleResume}>
+                  <div className={resumeStyles.backLastPageDiv}>
+                    <div className={resumeStyles.exampleImg}></div>
+                    <h4>Повернутися на останню сторінку</h4>
+                  </div>
+
                   <div className={resumeStyles.nameDiv}>
                     <div className={resumeStyles.textFactoryName}>
                       <h3>{resume.owner}</h3>
