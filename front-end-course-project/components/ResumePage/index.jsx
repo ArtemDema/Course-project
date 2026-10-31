@@ -5,17 +5,12 @@ import api from '../Api';
 import { useParams } from 'react-router-dom';
 
 function ResumePage() {
-  // 1. Хук useParams теперь работает идеально напрямую
   const { id } = useParams();
 
-  // 2. Инициализируем стейт
   const [resume, setResume] = useState({});
   const [userAbout, setUserAbout] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-  // 3. Загружаем данные при монтировании (аналог componentDidMount)
   useEffect(() => {
-    setLoading(true);
     Promise.all([
       api.get(`resume/${id}`),
       api.get(`user/${id}/`)
@@ -23,18 +18,11 @@ function ResumePage() {
     .then(([resumeResponse, userResponse]) => {
       setResume(resumeResponse.data);
       setUserAbout(userResponse.data);
-      setLoading(false);
     })
     .catch(error => {
-      console.error("Ошибка при загрузке данных:", error);
-      setLoading(false);
+      console.error("Ошибка:", error);
     });
-  }, [id]); // Запрос перезапустится, если id в URL изменится
-
-  // Пока данные загружаются, можно показать простой индикатор
-  if (loading) {
-    return <div style={{ textAlign: 'center', padding: '50px' }}>Завантаження...</div>;
-  }
+  }, [id]);
 
   const currentAvatarSrc = resume.avatar;
 
@@ -85,7 +73,7 @@ function ResumePage() {
               <p>{resume.experience || "Без досвіду"}</p>
             </div>
 
-            <button type="button" className={resumeStyles.textFactoryButton}>Показати більше</button>
+            <button type="button" className={resumeStyles.textFactoryButton}>Перейти на сторінку</button>
           </div>
         </div>
       </div>

@@ -1,70 +1,68 @@
-import vacancyStyles from "./VacancyPage.module.css"
-import Header from "../Header"
-import React from 'react'
-import axios from 'axios'
+import vacancyStyles from "./VacancyPage.module.css";
+import Header from "../Header";
+import React, { useState, useEffect } from 'react';
 import api from '../Api';
+import { useParams } from 'react-router-dom';
 
-class VacancyPage extends React.Component{
-  state = {
-    details: null,
-    resume: [],
-    imagePreview: null
-   }
+function VacancyPage() {
+  const { id } = useParams();
 
-  componentDidMount() {
-    api.get('resume/1') 
-      .then(response => {
-        console.log(response.data);
-        
-        if (Array.isArray(response.data) && response.data.length > 0) {
-          this.setState({ resume: Array.isArray(response.data) ? response.data : [] }); 
-        } else {
-          this.setState({ resume: [] });
-        }
+  const [vacancy, setVacancy] = useState({});
+
+  useEffect(() => {
+    api.get(`vacancy/${id}`)
+      .then((vacancyResponse) => {
+        setVacancy(vacancyResponse.data);
       })
       .catch(error => {
         console.error("Ошибка:", error);
-    })
-  }
-  render(){
-    const { details, resume, imagePreview } = this.state;
+      });
+    }, [id]);
 
-    const currentAvatarSrc = imagePreview || (details && details.avatar);
+  const currentAvatarSrc = vacancy.avatar;
 
-    <div className={vacancyStyles.mainDivProfilePage}>
-      <Header typeOfScreen={"profile"} />
-          <div className={vacancyStyles.contentDivProfilePage}>
-
-            <div className={vacancyStyles.rightSide}>
-                <div className={vacancyStyles.exampleResume}>
-                  <div className={vacancyStyles.nameDiv}>
-                    <div className={vacancyStyles.textFactoryName}>
-                      <h3>{myResume.owner}</h3>
-                    </div>
-                    <div className={vacancyStyles.exampleFactoryPhoto}>
-                      {currentAvatarSrc && (
-                        <img src={currentAvatarSrc}  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                        />
-                      )}
-                    </div>
-                  </div>
-
-                  <div className={vacancyStyles.infoDiv}>
-                    <div className={vacancyStyles.textFactory}>
-                      Бажані посади: {resume.desired_position_1}
-                    </div>
-                    {resume.type_of_resume && <div className={vacancyStyles.textFactory}>Галузь: {resume.type_of_resume}</div>}
-                    
-                    <div className={vacancyStyles.textFactory}>Досвід роботи: {resume.experience || "Без досвіду"}</div>
-                    <div className={vacancyStyles.textFactory}>Заробітна плата: {resume.salary_price || "Не вказано"} грн.</div>
-                  </div>
-
-                  <button type="button" className={vacancyStyles.textFactoryButton}>Показати більше</button>
-                </div>
+  return (
+    <div className={vacancyStyles.mainDivVacancyPage}>
+      <Header typeOfScreen={"main"} />
+      <div className={vacancyStyles.contentDivVacancyPage}>
+        <div className={vacancyStyles.rightSide}>
+          <div className={vacancyStyles.exampleVacancy}>
+            <div className={vacancyStyles.backLastPageDiv}>
+              <div className={vacancyStyles.exampleImg}></div>
+              <h4>Повернутися на останню сторінку</h4>
             </div>
+
+            <div className={vacancyStyles.nameDiv}>
+              <div className={vacancyStyles.textFactoryName}>
+                <h3>{vacancy.owner}</h3>
+              </div>
+              <div className={vacancyStyles.exampleFactoryPhoto}>
+                {currentAvatarSrc && (
+                  <img 
+                    src={`http://127.0.0.1:8000${currentAvatarSrc}`} 
+                    className={vacancyStyles.avatarUser}  
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                  />
+                )}
+              </div>
+            </div>
+            
+            <h2>Заробітна плата: {vacancy.salary_price || "Не вказано"} грн.</h2>
+
+            <div className={vacancyStyles.infoDiv}>
+              <h1>Розглядаю посади:</h1>
+              <h3>{vacancy.desired_position}</h3>
+
+              <h1>Досвід работе:</h1>
+              <p>{vacancy.experience || "Без досвіду"}</p>
+            </div>
+
+            <button type="button" className={vacancyStyles.textFactoryButton}>Перейти на сторінку</button>
+          </div>
         </div>
+      </div>
     </div>
-  }
+  );
 }
 
-export default VacancyPage
+export default VacancyPage;

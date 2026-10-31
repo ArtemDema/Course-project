@@ -1,0 +1,193 @@
+.mainDivVacancyPage{
+  width: 100%;
+  min-height: 100vh;
+}
+
+.mainDivVacancyPage img{
+  border-radius: 1234px;
+  width: 135px !important;
+  height: 135px !important;
+  border: 1px solid black;
+}
+
+.profileInfo{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 500px;
+}
+
+.textInfo{
+  font-family: 'JetBrains-Regular';
+  font-size: 24px;
+}
+
+.toProfileButton{
+  width: 100%;
+  height: 100%;
+  max-width: 230px;
+  max-height: 50px;
+  border: none;
+  border-radius: 12px;
+  background-color: #C3C5C4;
+  font-family: 'JetBrains-Bold';
+  font-size: 20px;
+}
+
+.contentDivVacancyPage{
+  width: 100%;
+  min-height: calc(100vh - 75px);
+  display: flex;
+  flex-direction: column;
+}
+
+.rightSide {
+  background-color: #FFFFFF;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  padding: 15px;
+  box-sizing: border-box;
+  background-image: linear-gradient(-45deg, #0084FF, #FFFFFF);
+  flex-shrink: 0;
+  flex-grow: 1;
+}
+
+.contentDivProfilePage{
+  display: flex;
+  flex-direction: row;
+}
+
+.textFactory{
+  font-family: 'JetBrains-Medium';
+  font-size: 22px;
+}
+
+.textFactoryButton{
+  width: 100%;
+  height: 100%;
+  max-width: 215px;
+  max-height: 50px;
+  color: white;
+  font-size: 20px;
+  border: none;
+  border-radius: 15px;
+  background-color: #5D506B;
+  min-height: 50px;
+}
+
+.infoFactoryTextDiv{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  max-width: 520px;
+  justify-content: center;
+}
+
+.backDiv{
+  width: 100%;
+  height: 100%;
+  max-height: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains-Medium';
+}
+
+.backImageDiv{
+  width: 50px;
+  height: 20px;
+  background-color: black;
+}
+
+.buttonDiv{
+  display: flex;
+  flex-direction: row;
+  width: 44%;
+  height: 100%;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.rightSide h4{
+  font-family: 'JetBrains-Medium';
+  font-size: 18px;
+  width: 90%;
+  text-align: center;
+}
+
+.exampleVacancy{
+  width: 100%;
+  height: auto;
+  max-width: 750px;
+  min-height: max-content;
+  background-color: #CDFFF3;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  padding: 15px;
+  box-sizing: border-box;
+  box-shadow: 12px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.nameDiv{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  box-sizing: border-box;
+  height: 100%;
+  gap: 20px;
+  max-height: 270px;
+}
+
+.textFactoryName{
+  font-family: 'JetBrains-Bold';
+  font-size: 26px;
+}
+
+.infoDiv{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-sizing: border-box;
+  justify-content: flex-start;
+}
+
+.infoDiv h1, .infoDiv h2, .infoDiv h3, .infoDiv h4, .infoDiv h5, .infoDiv h6, .infoDiv p{
+  font-family: 'JetBrains-Regular';
+}
+
+.textFactory{
+  font-family: 'JetBrains-Medium';
+  font-size: 22px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.backLastPageDiv{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  max-height: 20px;
+}
+
+.backLastPageDiv h4{
+  width: auto;
+}

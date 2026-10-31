@@ -66,8 +66,6 @@ class ResumeRender(APIView):
     def patch(self, request):
         resume_id = request.data.get('id')
         
-        if resume_id is None:
-            return Response({"error": "ID не передан"}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             resume = Resume.objects.get(id=resume_id)
@@ -82,20 +80,17 @@ class ResumeRender(APIView):
     def delete(self, request):
         resume_id = request.data.get('id') or request.query_params.get('id')
 
-        if resume_id is None:
-            return Response({"error": "ID не передан для удаления"}, status=status.HTTP_400_BAD_REQUEST)
-
         try:
             resume = Resume.objects.get(id=resume_id)
             resume.delete()
-            return Response({"message": "Резюме успешно удалено"}, status=status.HTTP_204_NO_CONTENT)
+            return Response({"message": "Резюме удалено"}, status=status.HTTP_204_NO_CONTENT)
         except Resume.DoesNotExist:
             return Response({"error": "Резюме не найдено"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class ResumeViewRender(APIView):
     def get(self, request, id):
-        resume = Resume.objects.filter(owner_id=id).select_related('owner').first()
+        resume = Resume.objects.filter(id=id).first()
         
         has_photo = hasattr(resume.owner, 'photoprofile')
         if has_photo and resume.owner.photoprofile.original:

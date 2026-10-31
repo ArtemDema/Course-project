@@ -61,6 +61,10 @@ class HomePage extends React.Component {
     window.location.href = `http://localhost:5173/resume/${id}`;
   };
 
+  handleVacancyView = (id) => {
+    window.location.href = `http://localhost:5173/vacancy/${id}`;
+  };
+
   render() {
     const { 
       vacancies, 
@@ -176,8 +180,13 @@ class HomePage extends React.Component {
                   <div className={homeStyles.textFactory}>Заробітна плата: {item.salary_price || "Не вказано"} грн.</div>
                 </div>
 
-                <button type="button" className={homeStyles.textFactoryButton}
+                {currentType === 'resume' ? (
+                  <button type="button" className={homeStyles.textFactoryButton}
                 onClick={() => this.handleResumeView(item.id)}>Показати більше</button>
+                ) : (
+                  <button type="button" className={homeStyles.textFactoryButton}
+                onClick={() => this.handleVacancyView(item.owner)}>Показати більше</button>
+                )}
               </div>
             ))}
 

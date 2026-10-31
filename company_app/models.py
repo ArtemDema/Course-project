@@ -8,6 +8,5 @@ class Company(models.Model):
     about_company = models.TextField(null=True, blank=True)
 
 class PhotoCompany(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    original = models.ImageField()
-    compressed = models.ImageField()
+    profile = models.OneToOneField(Company, on_delete=models.CASCADE, null=True, blank=True)
+    original = models.ImageField(upload_to='avatars/', null=True, blank=True)
