@@ -19,7 +19,7 @@ class ProfilePage extends React.Component{
         });
       })
       .catch(error => {
-        console.log("Ошибка получения профиля:", error);
+        console.log("Ошибка", error);
       });
 
     api.get('resume/') 

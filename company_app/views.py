@@ -13,7 +13,8 @@ class CompanyRender(APIView):
                 "description": output.description,
                 "name": output.name,
                 "about_company": output.about_company
-            } for output in Company.objects.all()
+            } 
+            for output in Company.objects.all()
         ]
         return Response(output)
 
@@ -22,3 +23,23 @@ class CompanyRender(APIView):
         if serializer.is_valid(raise_exception = True):
             serializer.save()
             return Response(serializer.data)
+
+class ComnpanyViewRender(APIView):
+    def get(self, request, id):
+        company = Company.objects.filter(id=id).first()
+
+        has_photo = hasattr(company, 'photocompany')
+        if has_photo and company.photocompany.original:
+            avatar_url = (company.photocompany.original.url)
+        else:
+            avatar_url = None
+            
+        output = {
+            "id": company.id,
+            "contact_email": company.contact_email,
+            "description": company.description,
+            "name": company.name,
+            "avatar": avatar_url
+        } 
+        
+        return Response(output)

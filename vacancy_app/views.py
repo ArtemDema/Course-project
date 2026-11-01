@@ -7,14 +7,26 @@ from .serializer import *
 # Create your views here.
 class VacancyRender(APIView):
     def get(self, request):
+        output = []
+        
+        vacancies = Vacancy.objects.select_related('owner', 'owner__photocompany').all()
+        
+        for vacancy in vacancies:
+            has_photo = hasattr(vacancy.owner, 'photocompany')
+            if has_photo and vacancy.owner.photocompany.original:
+                avatar_url = (vacancy.owner.photocompany.original.url)
+            else:
+                avatar_url = None
+        
         output = [
             {
-                "owner": output.owner.id,
+                "owner": output.id,
                 "experience": output.experience,
                 "contacts": output.contacts,
                 "salary_price": output.salary_price,
                 "desired_position": output.desired_position,
-                "type_of_vacancy": output.type_of_vacancy
+                "type_of_vacancy": output.type_of_vacancy,
+                "avatar": avatar_url
             } for output in Vacancy.objects.all()
         ]
         return Response(output)
@@ -28,7 +40,7 @@ class VacancyRender(APIView):
 class VacancyViewRender(APIView):
     def get(self, request, id):
         vacancy = Vacancy.objects.filter(id=id).first()
-        
+
         has_photo = hasattr(vacancy.owner, 'photocompany')
         if has_photo and vacancy.owner.photocompany.original:
             avatar_url = (vacancy.owner.photocompany.original.url)

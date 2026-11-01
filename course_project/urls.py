@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from company_app.views import CompanyRender
+from company_app.views import CompanyRender, ComnpanyViewRender
 from auth_app.views import UserListView, UserDetailView, CurrentUserView, RegisterUserView
 from vacancy_app.views import VacancyRender, VacancyViewRender
 from resume_app.views import ResumeRender, ResumeViewRender
@@ -28,6 +28,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("company/", CompanyRender.as_view()),
+    path("company/<int:id>/", ComnpanyViewRender.as_view()),
     path('user/', UserListView.as_view()),
     path('user/me/', CurrentUserView.as_view()),
     path('user/<int:id>/', UserDetailView.as_view()),
