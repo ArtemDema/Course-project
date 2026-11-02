@@ -7,12 +7,17 @@ import React, { useState, useEffect } from "react";
 function CompanyPage() {
   const [company, setCompany] = useState(null);
   const { id } = useParams();
+  const [allVacancies, setVacancies] = useState(null);
 
   useEffect(() => {
-    publicApi.get(`company/${id}/`) 
-      .then((response) => {
-        setCompany(response.data);
-      })
+    Promise.all([
+      publicApi.get(`vacancy/`),
+      publicApi.get(`company/${id}/`)
+    ])
+    .then(([vacanciesResponse, companyResponse]) => {
+      setCompany(companyResponse.data);
+      setVacancies(vacanciesResponse.data);
+    })
       .catch((error) => {
         console.error("Ошибка:", error);
       })
@@ -22,6 +27,13 @@ function CompanyPage() {
     return(<></>)
   }
   const currentAvatarSrc = company.avatar;
+
+  const vacancies = company && allVacancies.length > 0 ? allVacancies.filter(v => v.owner === company.id) : null;
+  
+  const handleVacancyView = (id) => {
+    window.location.href = `http://localhost:5173/vacancy/${id}`;
+  }
+
   return (
     <div className={companyStyles.mainDivCompanyPage}>
       <Header typeOfScreen={"main"} />
@@ -52,20 +64,41 @@ function CompanyPage() {
         </div>
         
         <div className={companyStyles.rightSide}>
-          <h3>Фотографії від компанії</h3>
-          <div className={companyStyles.PhotoDiv}>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-            <div className={companyStyles.examplePhotoFromCompanyDiv}></div>
-          </div>
           <h1>Вакансії</h1>
+          {vacancies ? (
+            <>
+            {vacancies.map((item, index) => (
+              <div 
+                key={item.id || index} 
+                className={companyStyles.exampleVacancy}
+              >
+                <div className={companyStyles.nameDiv}>
+                  <div className={companyStyles.textFactoryName}>
+                    {item.desired_position}
+                  </div>
+                  <div className={companyStyles.exampleFactoryPhoto}>
+                    {item.avatar ? (
+                      <img 
+                        src={`http://127.0.0.1:8000${item.avatar}`} 
+                        alt="Avatar"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    ) : (<></>)}
+                  </div>
+                </div>
+
+                <div className={companyStyles.infoDiv}>
+                  <div className={companyStyles.textFactory}>Про вакансію: {item.experience || "Без досвіду"}</div>
+                  <div className={companyStyles.textFactory}>Заробітна плата: {item.salary_price || "Не вказано"} грн.</div>
+                </div>
+
+                <button type="button" className={companyStyles.textFactoryButton}
+                onClick={() => handleVacancyView(item.id)}>Показати більше</button>
+              </div>
+            ))}
+            </>
+            ) : (<></>)
+          }
         </div>
 
       </div>

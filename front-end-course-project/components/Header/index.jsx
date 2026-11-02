@@ -1,6 +1,26 @@
 import headerStyles from "./Header.module.css"
+import React, { useState, useEffect } from "react";
+import api from '../Api';
 
 function Header({typeOfScreen}) {
+
+  const [user, setCompany] = useState(null)
+
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    if (token){
+      Promise.all([
+        api.get(`user/me/`),
+      ])
+      .then((userResponce) => {
+        setCompany(userResponce[0].data);
+        
+      })
+      .catch((error) => {
+        console.error("Ошибка:", error);
+      })
+    }
+  }, []);
 
   const redirectMain = () => {
     window.location.href = 'http://localhost:5173/';
@@ -14,7 +34,14 @@ function Header({typeOfScreen}) {
 
   return(
       <div id={headerStyles.header}>
-        <div className={headerStyles.avatarDiv}></div>
+        <div className={headerStyles.avatarDiv}>
+          {user ? (<img 
+            src={user.avatar} 
+            className={headerStyles.avatarUser}  
+            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: "1234px" }} 
+          />
+          ) : (<></>)}
+        </div>
 
         <div className={headerStyles.mainButton}>
             {typeOfScreen === 'main' && (

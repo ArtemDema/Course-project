@@ -1,7 +1,7 @@
 import vacancyStyles from "./VacancyPage.module.css";
 import Header from "../Header";
 import React, { useState, useEffect } from 'react';
-import api from '../Api';
+import { publicApi } from '../Api';
 import { useParams } from 'react-router-dom';
 
 function VacancyPage() {
@@ -10,7 +10,7 @@ function VacancyPage() {
   const [vacancy, setVacancy] = useState({});
 
   useEffect(() => {
-    api.get(`vacancy/${id}`)
+    publicApi.get(`vacancy/${id}`)
       .then((vacancyResponse) => {
         setVacancy(vacancyResponse.data);
       })
@@ -34,27 +34,18 @@ function VacancyPage() {
 
             <div className={vacancyStyles.nameDiv}>
               <div className={vacancyStyles.textFactoryName}>
-                <h3>{vacancy.owner}</h3>
+                <h3>{vacancy.name}</h3>
               </div>
-              <div className={vacancyStyles.exampleFactoryPhoto}>
-                {currentAvatarSrc && (
-                  <img 
-                    src={`http://127.0.0.1:8000${currentAvatarSrc}`} 
-                    className={vacancyStyles.avatarUser}  
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                  />
-                )}
-              </div>
+              <h1>{vacancy.desired_position}</h1>
             </div>
-            
-            <h2>Заробітна плата: {vacancy.salary_price || "Не вказано"} грн.</h2>
 
             <div className={vacancyStyles.infoDiv}>
-              <h1>Розглядаю посади:</h1>
-              <h3>{vacancy.desired_position}</h3>
-
-              <h1>Досвід работе:</h1>
+              <h2>Заробітна плата: {vacancy.salary_price || "Не вказано"} грн.</h2>
+              <h1>Про вакансію:</h1>
               <p>{vacancy.experience || "Без досвіду"}</p>
+
+              <h1>Контакти:</h1>
+              <p>{vacancy.contacts || "Не вказано"}</p>
             </div>
 
             <button type="button" className={vacancyStyles.textFactoryButton}>Перейти на сторінку</button>

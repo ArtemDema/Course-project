@@ -1,7 +1,7 @@
 import resumeStyles from "./ResumePage.module.css";
 import Header from "../Header";
 import React, { useState, useEffect } from 'react';
-import api from '../Api';
+import { publicApi } from '../Api';
 import { useParams } from 'react-router-dom';
 
 function ResumePage() {
@@ -12,8 +12,8 @@ function ResumePage() {
 
   useEffect(() => {
     Promise.all([
-      api.get(`resume/${id}`),
-      api.get(`user/${id}/`)
+      publicApi.get(`resume/${id}`),
+      publicApi.get(`user/${id}/`)
     ])
     .then(([resumeResponse, userResponse]) => {
       setResume(resumeResponse.data);

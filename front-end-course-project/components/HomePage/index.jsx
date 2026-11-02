@@ -176,7 +176,7 @@ class HomePage extends React.Component {
                     </>
                   )}
                   
-                  <div className={homeStyles.textFactory}>Досвід роботи: {item.experience || "Без досвіду"}</div>
+                  <div className={homeStyles.textFactory}>{currentType === 'vacancy' ? "Про вакансію:" : "Досвід роботи:"} {item.experience || "Без досвіду"}</div>
                   <div className={homeStyles.textFactory}>Заробітна плата: {item.salary_price || "Не вказано"} грн.</div>
                 </div>
 

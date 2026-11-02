@@ -20,7 +20,8 @@ class VacancyRender(APIView):
         
         output = [
             {
-                "owner": output.id,
+                "id": output.id,
+                "owner": output.owner.id,
                 "experience": output.experience,
                 "contacts": output.contacts,
                 "salary_price": output.salary_price,
