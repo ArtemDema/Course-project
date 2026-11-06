@@ -22,6 +22,13 @@ function Header({typeOfScreen}) {
     }
   }, []);
 
+  const logoutToken = () => {
+    localStorage.removeItem('access_token'); 
+    localStorage.removeItem('refresh_token');
+
+    window.location.href = 'http://localhost:5173/auth/'; 
+  };
+
   const redirectMain = () => {
     window.location.href = 'http://localhost:5173/';
   }
@@ -37,8 +44,7 @@ function Header({typeOfScreen}) {
         <div className={headerStyles.avatarDiv}>
           {user ? (<img 
             src={user.avatar} 
-            className={headerStyles.avatarUser}  
-            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: "1234px" }} 
+            className={headerStyles.avatarWorker}
           />
           ) : (<></>)}
         </div>
@@ -70,7 +76,8 @@ function Header({typeOfScreen}) {
           
         </div>
 
-        <button type="button" id={headerStyles.exitButton}></button>
+        <button type="button" id={headerStyles.exitButton}
+        onClick={logoutToken}></button>
       </div>
   )
     

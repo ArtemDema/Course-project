@@ -10,8 +10,11 @@ const RegisterForm = ({ setScreen, registrationData, setRegistrationData }) => {
         password_confirm: registrationData.password_confirm,
       }}
       onSubmit={(values) => {
-        setRegistrationData((prev) => ({ ...prev, ...values }));
-        setScreen('register-2');
+        if (values.password == values.password_confirm && values.password.length >= 5){
+          setRegistrationData((prev) => ({ ...prev, ...values }));
+          setScreen('register-2');
+        }
+
       }}
     >
       {() => (

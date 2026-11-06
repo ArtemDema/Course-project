@@ -8,16 +8,13 @@ function ResumePage() {
   const { id } = useParams();
 
   const [resume, setResume] = useState({});
-  const [userAbout, setUserAbout] = useState(null);
 
   useEffect(() => {
     Promise.all([
       publicApi.get(`resume/${id}`),
-      publicApi.get(`user/${id}/`)
     ])
     .then(([resumeResponse, userResponse]) => {
       setResume(resumeResponse.data);
-      setUserAbout(userResponse.data);
     })
     .catch(error => {
       console.error("Ошибка:", error);
@@ -25,6 +22,7 @@ function ResumePage() {
   }, [id]);
 
   const currentAvatarSrc = resume.avatar;
+  
 
   return (
     <div className={resumeStyles.mainDivResumePage}>
@@ -64,9 +62,9 @@ function ResumePage() {
 
               <div className={resumeStyles.profileInfo}>
                 <h3 className={resumeStyles.textInfo}>Вік: 666</h3>
-                <h3 className={resumeStyles.textInfo}>Місто: {userAbout?.city}</h3>
-                <h3 className={resumeStyles.textInfo}>Освіта: {userAbout?.education}</h3>
-                <h3 className={resumeStyles.textInfo}>Пошта: {userAbout?.email}</h3>
+                <h3 className={resumeStyles.textInfo}>Місто: {resume.city}</h3>
+                <h3 className={resumeStyles.textInfo}>Освіта: {resume.education}</h3>
+                <h3 className={resumeStyles.textInfo}>Пошта: {resume.email}</h3>
               </div>
 
               <h1>Досвід работе:</h1>

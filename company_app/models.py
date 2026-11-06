@@ -7,5 +7,5 @@ class Company(models.Model):
     name = models.TextField(null=False, blank=False)
 
 class PhotoCompany(models.Model):
-    profile = models.OneToOneField(Company, on_delete=models.CASCADE, null=True, blank=True)
+    company = models.OneToOneField(Company, on_delete=models.CASCADE, null=True, blank=True)
     original = models.ImageField(upload_to='avatars/', null=True, blank=True)

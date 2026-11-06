@@ -74,7 +74,8 @@ const RegisterFormTwo = ({ setScreen, registrationData, setRegistrationData }) =
                   повернутися до попередньої форми
                 </button>
                 
-                <button type="submit" disabled={isSubmitting}>Підтвердити</button>
+                <button type="submit" className={FormikRegisterTwoStyles.comfirmButton} 
+                disabled={isSubmitting}>Підтвердити</button>
               </div>
             </div>
           </div>

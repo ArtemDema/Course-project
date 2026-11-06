@@ -93,3 +93,10 @@
   font-family: 'JetBrains-Medium';
   font-size: 24px;
 }
+
+.avatarWorker{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1234px; 
+}
