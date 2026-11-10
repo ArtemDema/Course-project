@@ -24,8 +24,6 @@ class ProfilePage extends React.Component{
 
     api.get('resume/') 
       .then(response => {
-        console.log(response.data);
-        
         if (Array.isArray(response.data) && response.data.length > 0) {
           this.setState({ resume: Array.isArray(response.data) ? response.data : [] }); 
         } else {
@@ -36,6 +34,11 @@ class ProfilePage extends React.Component{
         console.error("Ошибка:", error);
     })
   }
+
+  handleResumeView = (id) => {
+    window.location.href = `http://localhost:5173/resume/${id}`;
+  };
+
   render(){
     const { details, resume, imagePreview } = this.state;
 
@@ -94,7 +97,8 @@ class ProfilePage extends React.Component{
                   <div className={profileStyles.textFactory}>Заробітна плата: {myResume.salary_price || "Не вказано"} грн.</div>
                 </div>
 
-                <button type="button" className={profileStyles.textFactoryButton}>Показати більше</button>
+                <button type="button" className={profileStyles.textFactoryButton}
+                onClick={() => this.handleResumeView(myResume.id)}>Показати більше</button>
               </div>
             ) : (
               <></>

@@ -23,6 +23,9 @@ function ResumePage() {
 
   const currentAvatarSrc = resume.avatar;
   
+  const redirectToProfile = (id) => {
+    window.location.href =`http://localhost:5173/profile/${id}`;
+  }
 
   return (
     <div className={resumeStyles.mainDivResumePage}>
@@ -32,7 +35,7 @@ function ResumePage() {
           <div className={resumeStyles.exampleResume}>
             <div className={resumeStyles.backLastPageDiv}>
               <div className={resumeStyles.exampleImg}></div>
-              <h4>Повернутися на останню сторінку</h4>
+              {/* <h4>Повернутися на останню сторінку</h4> */}
             </div>
 
             <div className={resumeStyles.nameDiv}>
@@ -71,7 +74,8 @@ function ResumePage() {
               <p>{resume.experience || "Без досвіду"}</p>
             </div>
 
-            <button type="button" className={resumeStyles.textFactoryButton}>Перейти на сторінку</button>
+            <button type="button" className={resumeStyles.textFactoryButton}
+            onClick={() => redirectToProfile(resume.owner_id)}>Перейти на сторінку</button>
           </div>
         </div>
       </div>

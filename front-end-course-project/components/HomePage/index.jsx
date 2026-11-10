@@ -2,7 +2,6 @@ import homeStyles from "./HomePage.module.css"
 import Header from "../Header"
 import React from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 class HomePage extends React.Component {
   state = {

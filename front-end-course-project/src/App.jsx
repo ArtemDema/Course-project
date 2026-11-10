@@ -18,7 +18,7 @@ class App extends React.Component{
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="company/:id" element={<CompanyPage />} />
-          <Route path="profile" element={<ProfilePage />} />
+          <Route path="profile/:id" element={<ProfilePage />} />
           <Route path="editProfile" element={<EditProfilePage />} />
           <Route path="auth" element={<AuthPage />} />
           <Route path="editCompany" element={<EditCompanyPage />} />

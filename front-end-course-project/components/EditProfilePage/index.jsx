@@ -367,6 +367,31 @@ class EditProfilePage extends React.Component {
           )}
         
           <div className={editProfileStyles.rightSide}>
+            <h1>Редагування інформації про себе</h1>
+            {details && (
+              <>
+                <div className={editProfileStyles.textInfoDivAboutMe}>
+                  {activeField === 'about_me' ? (
+                    <textarea 
+                      type="text" 
+                      value={details.about_me || ""} 
+                      onChange={(e) => this.handleInputChange(e, 'about_me')}
+                      className={editProfileStyles.editInputAboutMe}
+                    />
+                  ) : (
+                    <h3 className={editProfileStyles.textInfoAboutMe}>{details.about_me}</h3>
+                  )}
+                  <button 
+                    type="button" 
+                    className={`${editProfileStyles.editInfoButton} ${activeField === 'about_me' ? editProfileStyles.activeButton : ''}`}
+                    onClick={() => this.toggleEdit('about_me')}
+                  >
+                    {activeField === 'about_me' ? 'Зберегти' : 'Редагувати'}
+                  </button>
+                </div>
+              </>
+            )}
+            
             <h1>Редагування резюме</h1>
             {myResume ? (
               <div className={editProfileStyles.editResume}>
@@ -447,14 +472,14 @@ class EditProfilePage extends React.Component {
                 
                 <h1>Досвід роботи:</h1>
                 {activeField === 'experience' ? (
-                  <input 
+                  <textarea 
                     type="text" 
                     value={myResume.experience || ""} 
                     onChange={(e) => this.handleInputChange(e, 'experience')}
-                    className={editProfileStyles.editInput}
+                    className={editProfileStyles.editInputAboutMe}
                   />
                   ) : (
-                    <h4>{myResume.experience || "Не вказано"}</h4>
+                    <h4 className={editProfileStyles.textInfoAboutMe}>{myResume.experience || "Не вказано"}</h4>
                 )}
                 <div className={editProfileStyles.buttonDiv}>
                   <button type="button" 

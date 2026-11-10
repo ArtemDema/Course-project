@@ -1,5 +1,6 @@
 import headerStyles from "./Header.module.css"
 import React, { useState, useEffect } from "react";
+import { jwtDecode } from 'jwt-decode';
 import api from '../Api';
 
 function Header({typeOfScreen}) {
@@ -33,7 +34,15 @@ function Header({typeOfScreen}) {
     window.location.href = 'http://localhost:5173/';
   }
   const redirectProfile = () => {
-    window.location.href = 'http://localhost:5173/profile';
+    const accessToken = localStorage.getItem('access_token');
+
+    if (accessToken) {
+      const decoded = jwtDecode(accessToken);
+      window.location.href = `http://localhost:5173/profile/${decoded.user_id}`;
+    }
+    else{
+      window.location.href = 'http://localhost:5173/auth';
+    }
   }
   const redirectSettings = () => {
     window.location.href = 'http://localhost:5173/editProfile';

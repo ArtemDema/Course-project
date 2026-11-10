@@ -29,7 +29,7 @@ function VacancyPage() {
           <div className={vacancyStyles.exampleVacancy}>
             <div className={vacancyStyles.backLastPageDiv}>
               <div className={vacancyStyles.exampleImg}></div>
-              <h4>Повернутися на останню сторінку</h4>
+              {/* <h4>Повернутися на останню сторінку</h4> */}
             </div>
 
             <div className={vacancyStyles.nameDiv}>
