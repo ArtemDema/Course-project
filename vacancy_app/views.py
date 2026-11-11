@@ -56,7 +56,8 @@ class VacancyViewRender(APIView):
             "desired_position": vacancy.desired_position,
             "type_of_vacancy": vacancy.type_of_vacancy,
             "salary_price": vacancy.salary_price,
-            "avatar": avatar_url
+            "avatar": avatar_url,
+            "owner": vacancy.owner.id
         } 
         
         return Response(output)

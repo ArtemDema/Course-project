@@ -48,7 +48,9 @@ class EditProfilePage extends React.Component {
   handleInputChange = (e, field) => {
     const { value } = e.target;
     const { details } = this.state;
-    const resumeFields = ['desired_p_1', 'desired_p_2', 'desired_p_3', 'salary_price', 'experience'];
+    const resumeFields = ['desired_p_1', 'desired_p_2', 'desired_p_3', 'salary_price', 'experience',
+      "type_of_resume"
+    ];
     
     const fieldMap = {
       'desired_p_1': 'desired_position_1',
@@ -141,18 +143,26 @@ class EditProfilePage extends React.Component {
       ? resume.find(r => r.owner_id === details.id || r.user === details.id || r.user_id === details.id) 
       : null;
 
-    const resumeId = myResume.id; 
     const dataToSend = { ...myResume };
     
 
     api.patch("resume/", dataToSend)
-    .then(response => {
-      const updatedResumeList = prevState.resume.map(r => r.id === response.data.id ? response.data : r);
-      this.setState({ 
-        activeField: null,
-        resume: updatedResumeList
-      });
-    })
+      .then(response => {
+        this.setState(prevState => ({ 
+          activeField: null,
+          resume: prevState.resume.map(r => {
+            if (r.id === myResume.id) {
+              return { 
+                ...r, 
+                ...response.data,
+                owner_id: r.owner_id ?? details.id,
+                owner: details.id
+              };
+            }
+            return r;
+          })
+        }));
+      })
     .catch(error => {
       console.error("Ошибка:", error.response ? error.response.data : error.message);
     });
@@ -467,6 +477,51 @@ class EditProfilePage extends React.Component {
                     <button type="button" 
                     className={`${editProfileStyles.editInfoButton} ${activeField === 'salary_price' ? editProfileStyles.activeButton : ''}`}
                     onClick={() => this.toggleEdit('salary_price')}>{activeField === 'salary_price' ? 'Зберегти' : 'Редагувати'}</button>
+                  </div>
+
+                  {/* list_of_filters = [
+                    "IT", "Автобізнес та автосервіс", "Архітектура, дизайн інтер'єру", "Будівельна промисловість",
+                    "Бухгалтерія", "Видавництво", "Готельно-ресторанний бізнес", "Державні організації", "Енергетика", "ЗМІ", "Краса, фитнес, спорт",
+                    "Легка промисловість", "Маркетинг та реклама", "Машинобудування", "Медицина та охорона здоров'я", "Металургійна промисловість",
+                    "Нерухомість", "Оборонна промисловість", "Оптова торгівля", "Освіта", "Послуги для бізнесу", "Роздрібна торгівля",
+                    "Сили оборони", "Телекмунікації та зв'язок", "Транспорт та логістика", "Туризм", "Фінанси, банки, страхування",
+                    "Харчова промисловість", "Шоу-бізнес, мистецтво, культура", "Юриспруденція"
+                  ]; */}
+                  <div className={editProfileStyles.desiredPositionDivButton}>
+                    <h3>Галузь:</h3>
+                      <select name="" id="" onChange={(e) => this.handleInputChange(e, 'type_of_resume')}
+                        value={myResume?.type_of_resume || ""}>
+                        <option value="IT">IT</option>
+                        <option value="Автобізнес та автосервіс">Автобізнес та автосервіс</option>
+                        <option value="Архітектура, дизайн інтер'єру">Архітектура, дизайн інтер'єру</option>
+                        <option value="Будівельна промисловість">Будівельна промисловість</option>
+                        <option value="Бухгалтерія">Бухгалтерія</option>
+                        <option value="Видавництво">Видавництво</option>
+                        <option value="Готельно-ресторанний бізнес">Готельно-ресторанний бізнес</option>
+                        <option value="Державні організації">Державні організації</option>
+                        <option value="Енергетика">Енергетика</option>
+                        <option value="ЗМІ">ЗМІ</option>
+                        <option value="Краса, фитнес, спорт">Краса, фитнес, спорт</option>
+                        <option value="Легка промисловість">Легка промисловість</option>
+                        <option value="Маркетинг та реклама">Маркетинг та реклама</option>
+                        <option value="Машинобудування">Машинобудування</option>
+                        <option value="Медицина та охорона здоров'я">Медицина та охорона здоров'я</option>
+                        <option value="Металургійна промисловість">Металургійна промисловість</option>
+                        <option value="Нерухомість">Нерухомість</option>
+                        <option value="Оборонна промисловість">Оборонна промисловість</option>
+                        <option value="Оптова торгівля">Оптова торгівля</option>
+                        <option value="Освіта">Освіта</option>
+                        <option value="Послуги для бізнесу">Послуги для бізнесу</option>
+                        <option value="Роздрібна торгівля">Роздрібна торгівля</option>
+                        <option value="Сили оборони">Сили оборони</option>
+                        <option value="Телекмунікації та зв'язок">Телекмунікації та зв'язок</option>
+                        <option value="Транспорт та логістика">Транспорт та логістика</option>
+                        <option value="Туризм">Туризм</option>
+                        <option value="Фінанси, банки, страхування">Фінанси, банки, страхування</option>
+                        <option value="Харчова промисловість">Харчова промисловість</option>
+                        <option value="Шоу-бізнес, мистецтво, культура">Шоу-бізнес, мистецтво, культура</option>
+                        <option value="Юриспруденція">Юриспруденція</option>
+                      </select>
                   </div>
                 </div>
                 

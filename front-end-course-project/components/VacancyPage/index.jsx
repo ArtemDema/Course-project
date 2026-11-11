@@ -13,13 +13,17 @@ function VacancyPage() {
     publicApi.get(`vacancy/${id}`)
       .then((vacancyResponse) => {
         setVacancy(vacancyResponse.data);
+        console.log(vacancyResponse.data);
+        
       })
       .catch(error => {
         console.error("Ошибка:", error);
       });
     }, [id]);
 
-  const currentAvatarSrc = vacancy.avatar;
+  const redirectToCompany = (id) => {
+    window.location.href =`http://localhost:5173/company/${id}`;
+  }
 
   return (
     <div className={vacancyStyles.mainDivVacancyPage}>
@@ -48,7 +52,8 @@ function VacancyPage() {
               <p>{vacancy.contacts || "Не вказано"}</p>
             </div>
 
-            <button type="button" className={vacancyStyles.textFactoryButton}>Перейти на сторінку</button>
+            <button type="button" className={vacancyStyles.textFactoryButton}
+            onClick={() => redirectToCompany(vacancy.owner)}>Перейти на сторінку компанії</button>
           </div>
         </div>
       </div>

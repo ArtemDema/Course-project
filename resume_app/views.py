@@ -59,7 +59,8 @@ class ResumeRender(APIView):
                 "desired_position_3": resume_instance.desired_position_3,
                 "type_of_resume": resume_instance.type_of_resume,
                 "salary_price": resume_instance.salary_price,
-                "avatar": avatar_url
+                "avatar": avatar_url,
+                "type_of_resume": resume_instance.type_of_resume
             }
             return Response(response_data, status=status.HTTP_201_CREATED)
 

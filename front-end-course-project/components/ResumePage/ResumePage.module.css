@@ -79,6 +79,7 @@
   border-radius: 15px;
   background-color: #5D506B;
   min-height: 50px;
+  cursor: pointer;
 }
 
 .infoFactoryTextDiv{

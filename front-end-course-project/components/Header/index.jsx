@@ -2,6 +2,7 @@ import headerStyles from "./Header.module.css"
 import React, { useState, useEffect } from "react";
 import { jwtDecode } from 'jwt-decode';
 import api from '../Api';
+import exitPhoto from "../../public/exit.png";
 
 function Header({typeOfScreen}) {
 
@@ -86,7 +87,10 @@ function Header({typeOfScreen}) {
         </div>
 
         <button type="button" id={headerStyles.exitButton}
-        onClick={logoutToken}></button>
+        onClick={logoutToken}>
+          {/* иконки от Pixel perfect - Flaticon */}
+          <img src={exitPhoto} alt="" />
+        </button>
       </div>
   )
     

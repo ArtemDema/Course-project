@@ -4,15 +4,15 @@ import React from 'react'
 import axios from 'axios'
 
 class EditCompanyPage extends React.Component{
-  state = {details: [], }
+  state = { 
+    company: null
+  }
 
   componentDidMount(){
-    let data;
-    axios.get("http://127.0.0.1:8000/company/") //-------------------
+    axios.get("http://127.0.0.1:8000/company/0/") //-------------------
     .then(responce => {
-      data = responce.data;
       this.setState({
-        details: data
+        company: responce.data
       })
     })
     .catch(error => {
@@ -20,33 +20,28 @@ class EditCompanyPage extends React.Component{
     })
   }
   render(){
+    const { company } = this.state
+
     return(
     <div className={editCompanyStyles.mainEditCompanyPage}>
       <Header typeOfScreen={"settings"}/>
 
       <div className={editCompanyStyles.contentEditCompany}>
-        {this.state.details.map((output, id) => (
+        {company ? (
+          <>
           <div className={editCompanyStyles.leftSide}>
             <div className={editCompanyStyles.avatar}></div>
-            <h1>{output.name}</h1>
+            <h1>{company.name}</h1>
 
             <button type="button" className={editCompanyStyles.editCompanyPhoto}>Редагувати фото компанії</button>
 
           </div>
-        ))}
-
-        {this.state.details.map((output, id) => (
           <div className={editCompanyStyles.rightSide}>
             <h1>Редагування компанії</h1>
 
             <div className={editCompanyStyles.companyInfo}>
               <div className={editCompanyStyles.textInfoDiv}>
-                <h3 className={editCompanyStyles.textInfo}>Назва компанії: {output.name}</h3>
-                <button type="button" className={editCompanyStyles.editInfoButton}>Редагувати</button>
-              </div>
-
-              <div className={editCompanyStyles.textInfoDiv}>
-                <h3 className={editCompanyStyles.textInfo}>Дата заснування: {output.date_of_creation}</h3>
+                <h3 className={editCompanyStyles.textInfo}>Назва компанії: {company.name}</h3>
                 <button type="button" className={editCompanyStyles.editInfoButton}>Редагувати</button>
               </div>
 
@@ -56,37 +51,7 @@ class EditCompanyPage extends React.Component{
               </div>
 
               <div className={editCompanyStyles.textInfoDiv}>
-                <h3 className={editCompanyStyles.textInfo}>Фотографії від власника</h3>
-                <button type="button" className={editCompanyStyles.editInfoButton}>Редагувати</button>
-              </div>
-
-              <div className={editCompanyStyles.textInfoDiv}>
-                <h3 className={editCompanyStyles.textInfo}>Штаб працівників</h3>
-                <button type="button" className={editCompanyStyles.editInfoButton}>Редагувати</button>
-              </div>
-
-              <div className={editCompanyStyles.textInfoDiv}>
                 <h3 className={editCompanyStyles.textInfo}>Пошта представника компанії</h3>
-                <button type="button" className={editCompanyStyles.editInfoButton}>Редагувати</button>
-              </div>
-
-              <div className={editCompanyStyles.textInfoDiv}>
-                <h3 className={editCompanyStyles.textInfo}>Графік роботи: {output.work_hours}</h3>
-                <button type="button" className={editCompanyStyles.editInfoButton}>Редагувати</button>
-              </div>
-
-              <div className={editCompanyStyles.textInfoDiv}>
-                <h3 className={editCompanyStyles.textInfo}>Назва продукції: {output.product}</h3>
-                <button type="button" className={editCompanyStyles.editInfoButton}>Редагувати</button>
-              </div>
-
-              <div className={editCompanyStyles.textInfoDiv}>
-                <h3 className={editCompanyStyles.textInfo}>Обсяг продукції: {output.volume_of_prodiction}</h3>
-                <button type="button" className={editCompanyStyles.editInfoButton}>Редагувати</button>
-              </div>
-
-              <div className={editCompanyStyles.textInfoDiv}>
-                <h3 className={editCompanyStyles.textInfo}>Інформація про продукцію</h3>
                 <button type="button" className={editCompanyStyles.editInfoButton}>Редагувати</button>
               </div>
             </div>
@@ -95,7 +60,7 @@ class EditCompanyPage extends React.Component{
               <button type="button" className={editCompanyStyles.textFactoryButton}>Зберегти зміни</button>
             </div>
           </div>
-        ))}
+          </>) : (<></>)}
         
         
       </div>
