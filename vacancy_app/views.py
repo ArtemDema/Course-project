@@ -18,18 +18,18 @@ class VacancyRender(APIView):
             else:
                 avatar_url = None
         
-        output = [
-            {
-                "id": output.id,
-                "owner": output.owner.id,
-                "experience": output.experience,
-                "contacts": output.contacts,
-                "salary_price": output.salary_price,
-                "desired_position": output.desired_position,
-                "type_of_vacancy": output.type_of_vacancy,
-                "avatar": avatar_url
-            } for output in Vacancy.objects.all()
-        ]
+            output.append(
+                {
+                    "id": vacancy.id,
+                    "owner": vacancy.owner.id,
+                    "experience": vacancy.experience,
+                    "contacts": vacancy.contacts,
+                    "salary_price": vacancy.salary_price,
+                    "desired_position": vacancy.desired_position,
+                    "type_of_vacancy": vacancy.type_of_vacancy,
+                    "avatar": avatar_url
+                }
+        )
         return Response(output)
 
     def post(self, request):

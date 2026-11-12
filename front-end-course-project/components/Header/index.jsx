@@ -2,7 +2,7 @@ import headerStyles from "./Header.module.css"
 import React, { useState, useEffect } from "react";
 import { jwtDecode } from 'jwt-decode';
 import api from '../Api';
-import exitPhoto from "../../public/exit.png";
+import exitPhoto from "/exit.png";
 
 function Header({typeOfScreen}) {
 
