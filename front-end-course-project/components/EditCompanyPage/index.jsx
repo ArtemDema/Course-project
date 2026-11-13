@@ -38,6 +38,37 @@ class EditCompanyPage extends React.Component{
     })
   }
 
+  handleSaveChangesVacancy = () => {
+    const { vacancy, company } = this.state;
+    
+    // const vacancy = details && resume.length > 0
+    //   ? resume.find(r => r.owner_id === details.id || r.user === details.id || r.user_id === details.id) 
+    //   : null;
+
+    // const dataToSend = { ...myResume };
+    
+    // api.patch(`vacancy/${id}`, dataToSend)
+    //   .then(response => {
+    //     this.setState(prevState => ({ 
+    //       activeField: null,
+    //       resume: prevState.resume.map(r => {
+    //         if (r.id === myResume.id) {
+    //           return { 
+    //             ...r, 
+    //             ...response.data,
+    //             owner_id: r.owner_id ?? details.id,
+    //             owner: details.id
+    //           };
+    //         }
+    //         return r;
+    //       })
+    //     }));
+    //   })
+    // .catch(error => {
+    //   console.error("Ошибка:", error.response ? error.response.data : error.message);
+    // });
+  };
+
   toggleEdit = (field) => {
     this.setState({
       activeField: this.state.activeField === field ? null : field
@@ -192,47 +223,111 @@ class EditCompanyPage extends React.Component{
               </div>
             </div>
             
+            <h1>Вакансії</h1>
             {myVacancies ? (
               <>
                 {myVacancies.map((item, index) => (
-                  <div key={item.id || index} className={editCompanyStyles.exampleVacancy}>
-                    <div className={editCompanyStyles.nameDiv}>
-                      <div className={editCompanyStyles.textFactoryName}>
-                        {item.desired_position}
+                  <div key={index}>
+                    <div key={item.id || index} className={editCompanyStyles.exampleVacancy}>
+                      <div className={editCompanyStyles.infoDiv}>
+                        <div className={editCompanyStyles.textInfoDiv}>
+                          {activeField === `desired_position_${index}` ? (
+                            <input 
+                              type="text" 
+                              value={item.desired_position || ""} 
+                              onChange={(e) => this.handleInputChange(e, `desired_position_${index}`)}
+                              className={editCompanyStyles.editInput}
+                            />
+                          ) : (
+                            <h3 className={editCompanyStyles.textInfo}>Посада: {item.desired_position}</h3>
+                          )}
+                          <button 
+                            type="button" 
+                            className={`${editCompanyStyles.editInfoButton} ${activeField === `desired_position_${index}` ? editCompanyStyles.activeButton : ''}`}
+                            onClick={() => this.toggleEdit(`desired_position_${index}`)}
+                          >
+                            {activeField === `desired_position_${index}` ? 'Зберегти' : 'Редагувати'}
+                          </button>
+                        </div>
+
+                        <div className={editCompanyStyles.textInfoDiv}>
+                          {activeField === `salary_${index}` ? (
+                            <input 
+                              type="text" 
+                              value={item.salary_price || ""} 
+                              onChange={(e) => this.handleInputChange(e, `salary_${index}`)}
+                              className={editCompanyStyles.editInput}
+                            />
+                          ) : (
+                            <h3 className={editCompanyStyles.textInfo}>Заробітна плата: {item.salary_price}</h3>
+                          )}
+                          <button 
+                            type="button" 
+                            className={`${editCompanyStyles.editInfoButton} ${activeField === `salary_${index}` ? editCompanyStyles.activeButton : ''}`}
+                            onClick={() => this.toggleEdit(`salary_${index}`)}
+                          >
+                            {activeField === `salary_${index}` ? 'Зберегти' : 'Редагувати'}
+                          </button>
+                        </div>
+
+                        <div className={editCompanyStyles.textInfoDiv}>
+                          {activeField === `contact_email_vacancy_${index}` ? (
+                            <input 
+                              type="text" 
+                              value={item.contacts || ""} 
+                              onChange={(e) => this.handleInputChange(e, `contact_email_vacancy_${index}`)}
+                              className={editCompanyStyles.editInput}
+                            />
+                          ) : (
+                            <h3 className={editCompanyStyles.textInfo}>Контакти: {item.contacts}</h3>
+                          )}
+                          <button 
+                            type="button" 
+                            className={`${editCompanyStyles.editInfoButton} ${activeField === `contact_email_vacancy_${index}` ? editCompanyStyles.activeButton : ''}`}
+                            onClick={() => this.toggleEdit(`contact_email_vacancy_${index}`)}
+                          >
+                            {activeField === `contact_email_vacancy_${index}` ? 'Зберегти' : 'Редагувати'}
+                          </button>
+                        </div>
+
+                        <div className={editCompanyStyles.textInfoDiv}>
+                          {activeField === `experience_${index}` ? (
+                            <textarea 
+                              type="text" 
+                              value={item.experience || ""} 
+                              onChange={(e) => this.handleInputChange(e, `experience_${index}`)}
+                              className={editCompanyStyles.editInputAboutMe}
+                            />
+                          ) : (
+                            <h3 className={editCompanyStyles.textInfo}>Щодо вакансії: {item.experience}</h3>
+                          )}
+                          <button 
+                            type="button" 
+                            className={`${editCompanyStyles.editInfoButton} ${activeField === `experience_${index}` ? editCompanyStyles.activeButton : ''}`}
+                            onClick={() => this.toggleEdit(`experience_${index}`)}
+                          >
+                            {activeField === `experience_${index}` ? 'Зберегти' : 'Редагувати'}
+                          </button>
+                        </div>
                       </div>
-                      <div className={editCompanyStyles.exampleFactoryPhoto}>
-                        <img 
-                          src={`http://127.0.0.1:8000${item.avatar}`} 
-                          alt="Avatar"
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
-                      </div>
+
+                      <button type="button" className={editCompanyStyles.textFactoryButton}
+                      onClick={() => this.handleSaveChangesVacancy(item.owner)}>Зберігти зміни вакансії</button>
                     </div>
 
-                    <div className={editCompanyStyles.infoDiv}>
-                      <div className={editCompanyStyles.textFactory}>"Про вакансію:" {item.experience || "Без досвіду"}</div>
-                      <div className={editCompanyStyles.textFactory}>Заробітна плата: {item.salary_price || "Не вказано"} грн.</div>
+                    <div className={editCompanyStyles.editDeleteDiv}>
+                      <button type="button">Видалити</button>
                     </div>
-
-                    <button type="button" className={editCompanyStyles.textFactoryButton}
-                    onClick={() => this.handleVacancyView(item.owner)}>Показати більше</button>
                   </div>
                 ))}
               </>) : (<></>)}
-            
-
             <div className={editCompanyStyles.buttonDiv}>
               <button type="button" className={editCompanyStyles.textFactoryButton}>Зберегти зміни</button>
             </div>
           </div>
           </>) : (<></>)}
-        
-        
       </div>
-
     </div>
-
-
   )}
 }
 
