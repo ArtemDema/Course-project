@@ -35,8 +35,13 @@
   justify-content: flex-start;
   width: 100%;
   height: 100%;
-  max-height: 540px;
+  max-height: 350px;
   align-items: center;
+  box-sizing: border-box;
+}
+
+.companyInfo h3{
+  text-align: center;
 }
 
 .textInfo{
@@ -147,7 +152,7 @@
   text-overflow: ellipsis;
 }
 
-.textFactoryButton{
+.textFactoryButton, .textFactoryButtonResume{
   width: 100%;
   height: 100%;
   max-width: 215px;
@@ -157,6 +162,13 @@
   border: none;
   border-radius: 15px;
   background-color: #243C7C;
+}
+
+.textFactoryButtonResume{
+  background-color: #5872ba;
+  max-width: 280px;
+  border: 2px solid black;
+  cursor: pointer;
 }
 
 .infoFactoryTextDiv{
@@ -239,6 +251,7 @@
   width: 100%;
   height: 100%;
   max-width: 215px;
+  min-width: 215px;
   max-height: 50px;
   font-family: 'JetBrains-Bold';
   font-size: 20px;
@@ -268,8 +281,8 @@
   width: 100%;
   height: 100%;
   max-width: 1150px;
-  max-height: 500px;
-  min-height: 500px;
+  max-height: 400px;
+  min-height: 400px;
   background-color: #CDFFF3;
   border-radius: 6px;
   display: flex;
@@ -327,4 +340,24 @@
   gap: 20px;
   justify-content: center;
   align-items: center;
+}
+
+.resumeDiv{
+  height: 100%;
+  max-height: 500px;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.editDeleteDiv button{
+  width: 100%;
+  height: 100%;
+  max-width: 150px;
+  max-height: 50px;
+  border-radius: 15px;
+  background-color: gray;
+  border: none;
+  font-family: 'JetBrains-Bold';
 }

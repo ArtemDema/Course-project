@@ -202,32 +202,30 @@ class EditCompanyPage extends React.Component{
             <h1>Редагування компанії</h1>
 
             <div className={editCompanyStyles.companyInfo}>
-              <div className={editCompanyStyles.textInfoDivAboutMe}>
-                {activeField === 'description' ? (
-                  <textarea 
-                    type="text" 
-                    value={company.description || ""} 
-                    onChange={(e) => this.handleInputChange(e, 'description')}
-                    className={editCompanyStyles.editInputAboutMe}
-                  />
-                ) : (
-                  <h3 className={editCompanyStyles.textInfoAboutMe}>{company.description}</h3>
-                )}
-                <button 
-                  type="button" 
-                  className={`${editCompanyStyles.editInfoButton} ${activeField === 'description' ? editCompanyStyles.activeButton : ''}`}
-                  onClick={() => this.toggleEdit('description')}
-                >
-                  {activeField === 'description' ? 'Зберегти' : 'Редагувати'}
-                </button>
-              </div>
+              {activeField === 'description' ? (
+                <textarea 
+                  type="text" 
+                  value={company.description || ""} 
+                  onChange={(e) => this.handleInputChange(e, 'description')}
+                  className={editCompanyStyles.editInputAboutMe}
+                />
+              ) : (
+                <h3 className={editCompanyStyles.textInfoAboutMe}>{company.description}</h3>
+              )}
+              <button 
+                type="button" 
+                className={`${editCompanyStyles.editInfoButton} ${activeField === 'description' ? editCompanyStyles.activeButton : ''}`}
+                onClick={() => this.toggleEdit('description')}
+              >
+                {activeField === 'description' ? 'Зберегти' : 'Редагувати'}
+              </button>
             </div>
             
             <h1>Вакансії</h1>
             {myVacancies ? (
               <>
                 {myVacancies.map((item, index) => (
-                  <div key={index}>
+                  <div key={index} className={editCompanyStyles.resumeDiv}>
                     <div key={item.id || index} className={editCompanyStyles.exampleVacancy}>
                       <div className={editCompanyStyles.infoDiv}>
                         <div className={editCompanyStyles.textInfoDiv}>
@@ -311,12 +309,12 @@ class EditCompanyPage extends React.Component{
                         </div>
                       </div>
 
-                      <button type="button" className={editCompanyStyles.textFactoryButton}
+                      <button type="button" className={editCompanyStyles.textFactoryButtonResume}
                       onClick={() => this.handleSaveChangesVacancy(item.owner)}>Зберігти зміни вакансії</button>
                     </div>
 
                     <div className={editCompanyStyles.editDeleteDiv}>
-                      <button type="button">Видалити</button>
+                      <button type="button">Видалити резюме</button>
                     </div>
                   </div>
                 ))}
