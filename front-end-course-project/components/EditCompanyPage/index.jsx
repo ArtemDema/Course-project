@@ -38,40 +38,69 @@ class EditCompanyPage extends React.Component{
     })
   }
 
-  handleSaveChangesVacancy = () => {
-    const { vacancy, company } = this.state;
+  handleSaveChangesVacancy = (vacancyId) => {
+    const { vacancy } = this.state;
     
-    // const vacancy = details && resume.length > 0
-    //   ? resume.find(r => r.owner_id === details.id || r.user === details.id || r.user_id === details.id) 
-    //   : null;
+    const targetVacancy = vacancy.find(v => v.id === vacancyId);
+    if (!targetVacancy) return;
 
-    // const dataToSend = { ...myResume };
-    
-    // api.patch(`vacancy/${id}`, dataToSend)
-    //   .then(response => {
-    //     this.setState(prevState => ({ 
-    //       activeField: null,
-    //       resume: prevState.resume.map(r => {
-    //         if (r.id === myResume.id) {
-    //           return { 
-    //             ...r, 
-    //             ...response.data,
-    //             owner_id: r.owner_id ?? details.id,
-    //             owner: details.id
-    //           };
-    //         }
-    //         return r;
-    //       })
-    //     }));
-    //   })
-    // .catch(error => {
-    //   console.error("Ошибка:", error.response ? error.response.data : error.message);
-    // });
+    api.patch('vacancy/', targetVacancy)
+      .then(response => {
+        this.setState(prevState => ({
+          activeField: null,
+          vacancy: prevState.vacancy.map(v => 
+            v.id === vacancyId ? response.data : v
+          )
+        }));
+      })
+      .catch(error => {
+        console.error("Ошибка:", error.response ? error.response.data : error);
+      });
   };
 
-  toggleEdit = (field) => {
+  handleInputChange = (e, field, vacancyId = null) => {
+    const { value } = e.target;
+
+    if (vacancyId !== null) {
+      this.setState(prevState => ({
+        vacancy: prevState.vacancy.map(item => 
+          item.id === vacancyId ? { ...item, [field]: value } : item
+        )
+      }));
+    }
+    else {
+      this.setState(prevState => ({
+        company: {
+          ...prevState.company,
+          [field]: value
+        }
+      }));
+    }
+  };
+
+  handleDeleteVacancy = (id) => {
+    const { company, vacancy } = this.state;
+
+    const myVacancy = company && vacancy.length > 0
+      ? vacancy.find(v => v.owner === company.id && v.id === id) : null;
+
+    api.delete("vacancy/", { params: { id: myVacancy.id } })
+      .then(() => {
+        this.setState(prevState => ({
+          activeField: null,
+          vacancy: prevState.vacancy.filter(v => v.id !== myVacancy.id)
+        }));
+      })
+      .catch(error => {
+        console.error("Ошибка:", error.response ? error.response.data : error.message);
+      });
+  };
+
+  toggleEdit = (field, vacancyId = null) => {
+    const fieldKey = vacancyId !== null ? `vacancy_${vacancyId}_${field}` : field;
+
     this.setState({
-      activeField: this.state.activeField === field ? null : field
+      activeField: this.state.activeField === fieldKey ? null : fieldKey
     });
   };
 
@@ -91,16 +120,14 @@ class EditCompanyPage extends React.Component{
     }
   };
 
-  handleSaveChanges = (id) => {
-    const { details, selectedFile } = this.state;
-    
-    if (!details) return;
+  handleSaveChangesCompany = () => {
+    const { company, selectedFile } = this.state;
+    if (!company) return;
 
     const formData = new FormData();
-    
-    Object.keys(details).forEach(key => {
+    Object.keys(company).forEach(key => {
       if (key !== 'date_joined' && key !== 'id' && key !== 'avatar') { 
-        formData.append(key, details[key] || '');
+        formData.append(key, company[key] || '');
       }
     });
 
@@ -108,20 +135,18 @@ class EditCompanyPage extends React.Component{
       formData.append('avatar_upload', selectedFile); 
     }
 
-    api.patch(`company/${id}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+    api.patch(`company/${company.id}/`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
-      .then(responce => {
+      .then(response => {
         this.setState({ 
           activeField: null,
-          details: responce.data,
+          company: response.data,
           selectedFile: null
         });
       })
       .catch(error => {
-        console.error("Oшибкa:", error);
+        console.error("Ошибка:", error);
       });
   };
 
@@ -162,7 +187,7 @@ class EditCompanyPage extends React.Component{
                 <input 
                   type="text" 
                   value={company.name || ""} 
-                  onChange={(e) => this.handleInputChange(e, 'name')}
+                  onChange={(e) => this.handleInputChange(e, 'name', item.id)}
                   className={editCompanyStyles.editInput}
                 />
               ) : (
@@ -182,7 +207,7 @@ class EditCompanyPage extends React.Component{
                 <input 
                   type="text" 
                   value={company.contact_email || ""} 
-                  onChange={(e) => this.handleInputChange(e, 'contact_email')}
+                  onChange={(e) => this.handleInputChange(e, 'contact_email', item.id)}
                   className={editCompanyStyles.editInput}
                 />
               ) : (
@@ -206,7 +231,7 @@ class EditCompanyPage extends React.Component{
                 <textarea 
                   type="text" 
                   value={company.description || ""} 
-                  onChange={(e) => this.handleInputChange(e, 'description')}
+                  onChange={(e) => this.handleInputChange(e, 'description', item.id)}
                   className={editCompanyStyles.editInputAboutMe}
                 />
               ) : (
@@ -224,16 +249,23 @@ class EditCompanyPage extends React.Component{
             <h1>Вакансії</h1>
             {myVacancies ? (
               <>
-                {myVacancies.map((item, index) => (
+              {myVacancies.map((item, index) => {
+                const positionKey = `vacancy_${item.id}_desired_position`;
+                const salaryKey = `vacancy_${item.id}_salary_price`;
+                const contactsKey = `vacancy_${item.id}_contact_email_vacancy`;
+                const experienceKey = `vacancy_${item.id}_experience`;
+
+                return (
                   <div key={index} className={editCompanyStyles.resumeDiv}>
-                    <div key={item.id || index} className={editCompanyStyles.exampleVacancy}>
+                    <div className={editCompanyStyles.exampleVacancy}>
                       <div className={editCompanyStyles.infoDiv}>
+                        
                         <div className={editCompanyStyles.textInfoDiv}>
-                          {activeField === `desired_position_${index}` ? (
+                          {activeField === positionKey ? (
                             <input 
                               type="text" 
                               value={item.desired_position || ""} 
-                              onChange={(e) => this.handleInputChange(e, `desired_position_${index}`)}
+                              onChange={(e) => this.handleInputChange(e, 'desired_position', item.id)}
                               className={editCompanyStyles.editInput}
                             />
                           ) : (
@@ -241,19 +273,19 @@ class EditCompanyPage extends React.Component{
                           )}
                           <button 
                             type="button" 
-                            className={`${editCompanyStyles.editInfoButton} ${activeField === `desired_position_${index}` ? editCompanyStyles.activeButton : ''}`}
-                            onClick={() => this.toggleEdit(`desired_position_${index}`)}
+                            className={`${editCompanyStyles.editInfoButton} ${activeField === positionKey ? editCompanyStyles.activeButton : ''}`}
+                            onClick={() => this.toggleEdit('desired_position', item.id)}
                           >
-                            {activeField === `desired_position_${index}` ? 'Зберегти' : 'Редагувати'}
+                            {activeField === positionKey ? 'Зберегти' : 'Редагувати'}
                           </button>
                         </div>
 
                         <div className={editCompanyStyles.textInfoDiv}>
-                          {activeField === `salary_${index}` ? (
+                          {activeField === salaryKey ? (
                             <input 
                               type="text" 
                               value={item.salary_price || ""} 
-                              onChange={(e) => this.handleInputChange(e, `salary_${index}`)}
+                              onChange={(e) => this.handleInputChange(e, 'salary_price', item.id)}
                               className={editCompanyStyles.editInput}
                             />
                           ) : (
@@ -261,19 +293,19 @@ class EditCompanyPage extends React.Component{
                           )}
                           <button 
                             type="button" 
-                            className={`${editCompanyStyles.editInfoButton} ${activeField === `salary_${index}` ? editCompanyStyles.activeButton : ''}`}
-                            onClick={() => this.toggleEdit(`salary_${index}`)}
+                            className={`${editCompanyStyles.editInfoButton} ${activeField === salaryKey ? editCompanyStyles.activeButton : ''}`}
+                            onClick={() => this.toggleEdit('salary_price', item.id)}
                           >
-                            {activeField === `salary_${index}` ? 'Зберегти' : 'Редагувати'}
+                            {activeField === salaryKey ? 'Зберегти' : 'Редагувати'}
                           </button>
                         </div>
 
                         <div className={editCompanyStyles.textInfoDiv}>
-                          {activeField === `contact_email_vacancy_${index}` ? (
+                          {activeField === contactsKey ? (
                             <input 
                               type="text" 
                               value={item.contacts || ""} 
-                              onChange={(e) => this.handleInputChange(e, `contact_email_vacancy_${index}`)}
+                              onChange={(e) => this.handleInputChange(e, 'contact_email_vacancy', item.id)}
                               className={editCompanyStyles.editInput}
                             />
                           ) : (
@@ -281,19 +313,19 @@ class EditCompanyPage extends React.Component{
                           )}
                           <button 
                             type="button" 
-                            className={`${editCompanyStyles.editInfoButton} ${activeField === `contact_email_vacancy_${index}` ? editCompanyStyles.activeButton : ''}`}
-                            onClick={() => this.toggleEdit(`contact_email_vacancy_${index}`)}
+                            className={`${editCompanyStyles.editInfoButton} ${activeField === contactsKey ? editCompanyStyles.activeButton : ''}`}
+                            onClick={() => this.toggleEdit(`contact_email_vacancy`, item.id)}
                           >
-                            {activeField === `contact_email_vacancy_${index}` ? 'Зберегти' : 'Редагувати'}
+                            {activeField === contactsKey ? 'Зберегти' : 'Редагувати'}
                           </button>
                         </div>
 
                         <div className={editCompanyStyles.textInfoDiv}>
-                          {activeField === `experience_${index}` ? (
+                          {activeField === experienceKey ? (
                             <textarea 
                               type="text" 
                               value={item.experience || ""} 
-                              onChange={(e) => this.handleInputChange(e, `experience_${index}`)}
+                              onChange={(e) => this.handleInputChange(e, 'experience', item.id)}
                               className={editCompanyStyles.editInputAboutMe}
                             />
                           ) : (
@@ -301,24 +333,27 @@ class EditCompanyPage extends React.Component{
                           )}
                           <button 
                             type="button" 
-                            className={`${editCompanyStyles.editInfoButton} ${activeField === `experience_${index}` ? editCompanyStyles.activeButton : ''}`}
-                            onClick={() => this.toggleEdit(`experience_${index}`)}
+                            className={`${editCompanyStyles.editInfoButton} ${activeField === experienceKey ? editCompanyStyles.activeButton : ''}`}
+                            onClick={() => this.toggleEdit(`experience`, item.id)}
                           >
-                            {activeField === `experience_${index}` ? 'Зберегти' : 'Редагувати'}
+                            {activeField === experienceKey ? 'Зберегти' : 'Редагувати'}
                           </button>
                         </div>
                       </div>
 
                       <button type="button" className={editCompanyStyles.textFactoryButtonResume}
-                      onClick={() => this.handleSaveChangesVacancy(item.owner)}>Зберігти зміни вакансії</button>
+                      onClick={() => this.handleSaveChangesVacancy(item.id)}>Зберігти зміни вакансії</button>
                     </div>
 
                     <div className={editCompanyStyles.editDeleteDiv}>
-                      <button type="button">Видалити резюме</button>
+                      <button type="button"
+                      onClick={() => this.handleDeleteVacancy(item.id)}>Видалити резюме</button>
                     </div>
                   </div>
-                ))}
-              </>) : (<></>)}
+                );
+                })}
+              </>
+            ) : null}
             <div className={editCompanyStyles.buttonDiv}>
               <button type="button" className={editCompanyStyles.textFactoryButton}>Зберегти зміни</button>
             </div>

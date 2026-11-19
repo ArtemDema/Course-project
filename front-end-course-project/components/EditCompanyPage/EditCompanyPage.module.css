@@ -162,6 +162,7 @@
   border: none;
   border-radius: 15px;
   background-color: #243C7C;
+  cursor: pointer;
 }
 
 .textFactoryButtonResume{
@@ -255,6 +256,7 @@
   max-height: 50px;
   font-family: 'JetBrains-Bold';
   font-size: 20px;
+  cursor: pointer;
 }
 
 .editProfilePhoto{
@@ -280,7 +282,8 @@
 .exampleVacancy{
   width: 100%;
   height: 100%;
-  max-width: 1150px;
+  max-width: 720px;
+  min-width: 720px;
   max-height: 400px;
   min-height: 400px;
   background-color: #CDFFF3;
@@ -360,4 +363,5 @@
   background-color: gray;
   border: none;
   font-family: 'JetBrains-Bold';
+  cursor: pointer;
 }
